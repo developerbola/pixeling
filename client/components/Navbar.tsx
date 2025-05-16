@@ -11,6 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { SearchIcon } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -28,12 +30,16 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-4 items-center">
-          <Input placeholder="Search" className="inline-block" />
+          <Link href={"/search"}>
+            <Button variant={"outline"}>
+              Search <SearchIcon />
+            </Button>
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none focus:border-none">
-              <Avatar className="cursor-pointer">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+              <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
+                <AvatarImage src="https://avatars.githubusercontent.com/u/130325184?v=4" />
+                <AvatarFallback>DB</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -9,7 +8,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
@@ -18,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useEffect, useState } from "react";
 
 const categories = [
   {
@@ -25,8 +24,8 @@ const categories = [
     label: "Technology",
   },
   {
-    value: "health",
-    label: "Health & Wellness",
+    value: "career",
+    label: "Career",
   },
   {
     value: "business",
@@ -58,9 +57,17 @@ const categories = [
   },
 ];
 
-export function Category() {
-  const [open, setOpen] = React.useState(false);
-  const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+export function Category({
+  saveValue,
+}: {
+  saveValue: (value: string | boolean | string[], name: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
+  useEffect(() => {
+    saveValue(selectedValues, "categories");
+  }, [selectedValues]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
