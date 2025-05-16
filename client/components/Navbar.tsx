@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import {
