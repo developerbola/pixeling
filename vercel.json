@@ -1,12 +1,3 @@
 {
-  "projects": {
-    "client": {
-      "source": "client/**/*",
-      "use": "@vercel/next"
-    },
-    "server": {
-      "source": "server/**/*",
-      "use": "@vercel/node"
-    }
-  }
+  "rewrites": [{ "source": "/client/*", "destination": "/" }]
 }
