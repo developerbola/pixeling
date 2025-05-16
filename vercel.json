@@ -1,6 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/client/(.*)", "destination": "/" },
-    { "source": "/(.*)", "destination": "/" }
-  ]
+  "rewrites": [{ "source": "/client/(.*)", "destination": "/" }]
 }
