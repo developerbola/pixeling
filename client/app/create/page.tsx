@@ -33,6 +33,7 @@ const Create = () => {
 
   const [open, setOpen] = useState<boolean>(false);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [inputHeight, setInputHeight] = useState(600);
 
   const saveValue = (value: string | boolean | string[], name: string) => {
     setUploadData({ ...uploadData, [name]: value });
@@ -60,17 +61,30 @@ const Create = () => {
           <div className="relative">
             <input
               type="file"
-              className="absolute top-0 left-0 opacity-0 h-[600px] w-[500px] cursor-pointer"
+              className={cn(
+                "absolute top-0 left-0 opacity-0 w-[500px] cursor-pointer",
+                !uploadData.file ? "h-[600px]" : `h-[${inputHeight}px]`
+              )}
               onChange={(e) => {
-                const selectedFile = e.target.files && e.target.files[0];
-                if (selectedFile) {
-                  saveValue(URL.createObjectURL(selectedFile), "file");
-                }
+                const selectedFile = e.target.files?.[0];
+                if (!selectedFile) return;
+
+                const imageURL = URL.createObjectURL(selectedFile);
+
+                const img = new window.Image();
+
+                img.src = imageURL;
+
+                img.onload = () => {
+                  setInputHeight(img.naturalHeight);
+                  saveValue(imageURL, "file");
+                };
               }}
             />
             <div
               className={cn(
-                !uploadData.file && "h-[600px] w-[500px] grid place-items-center",
+                !uploadData.file &&
+                  "h-[600px] w-[500px] grid place-items-center",
                 "max-w-[500px] rounded-2xl overflow-hidden bg-[#131313]"
               )}
             >
@@ -91,7 +105,7 @@ const Create = () => {
             </div>
 
             <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild className="mt-4 z-10">
+              <PopoverTrigger asChild className="mt-4">
                 <Button className="w-full" variant={"outline"}>
                   Save from link
                 </Button>
