@@ -12,6 +12,8 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { SearchIcon } from "lucide-react";
+import { Input } from "./ui/input";
+import Search from "./Search";
 
 const Navbar = () => {
   return (
@@ -28,12 +30,10 @@ const Navbar = () => {
             />
           </Link>
         </div>
+        <div className="flex align-center justify-end w-full px-5">
+          <Search />
+        </div>
         <div className="flex gap-4 items-center">
-          <Link href={"/search"}>
-            <Button variant={"outline"}>
-              Search <SearchIcon />
-            </Button>
-          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none focus:border-none">
               <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
@@ -42,7 +42,7 @@ const Navbar = () => {
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>Options</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <Link href={"/profile"}>
                 <DropdownMenuItem>Profile</DropdownMenuItem>

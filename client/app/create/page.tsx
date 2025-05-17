@@ -68,12 +68,17 @@ const Create = () => {
                 }
               }}
             />
-            <div className="h-[600px] w-[500px] flex items-center justify-center bg-[#131313] rounded-2xl overflow-hidden">
+            <div
+              className={cn(
+                !uploadData.file && "h-[600px] w-[500px] grid place-items-center",
+                "max-w-[500px] rounded-2xl overflow-hidden bg-[#131313]"
+              )}
+            >
               {uploadData.file ? (
                 <img
                   src={uploadData.file}
-                  alt="preview"
-                  className="object-cover h-full w-full"
+                  alt={uploadData.title}
+                  className="w-full h-auto object-contain"
                 />
               ) : (
                 <Image
@@ -84,8 +89,9 @@ const Create = () => {
                 />
               )}
             </div>
+
             <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild className="mt-4">
+              <PopoverTrigger asChild className="mt-4 z-10">
                 <Button className="w-full" variant={"outline"}>
                   Save from link
                 </Button>
@@ -155,7 +161,9 @@ const Create = () => {
                 id="allow-comment"
                 defaultChecked
                 checked={uploadData.isCommentable}
-                onCheckedChange={(checked) => saveValue(checked, "isCommentable")}
+                onCheckedChange={(checked) =>
+                  saveValue(checked, "isCommentable")
+                }
                 className="cursor-pointer"
               />
             </div>
