@@ -67,7 +67,7 @@ export function Category({
 
   useEffect(() => {
     saveValue(selectedValues, "categories");
-  }, [selectedValues]);
+  }, [selectedValues, saveValue]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -10,9 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { SearchIcon } from "lucide-react";
-import { Input } from "./ui/input";
 import Search from "./Search";
 
 const Navbar = () => {

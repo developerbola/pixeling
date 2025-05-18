@@ -89,15 +89,17 @@ const Create = () => {
               )}
             >
               {uploadData.file ? (
-                <img
+                <Image
                   src={uploadData.file}
                   alt={uploadData.title}
                   className="w-full h-auto object-contain"
+                  height={600}
+                  width={500}
                 />
               ) : (
                 <Image
-                  src={"/image_preview.svg"}
-                  alt="preview svg image"
+                  src={"/default_placeholder.svg"}
+                  alt="default svg image placeholder"
                   width={200}
                   height={100}
                 />
