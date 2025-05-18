@@ -1,0 +1,20 @@
+{
+  "name": "pixeling",
+  "author": {
+    "name": "Qobiljon",
+    "email": "developerbola@icloud.com"
+  },
+  "repository": {
+    "url": "https://github.com/developerbola/pixeling"
+  },
+  "keywords": [
+    "pixeling",
+    "gallery",
+    "fullstack",
+    "nextjs",
+    "typescript",
+    "honojs",
+    "hono",
+    "bun"
+  ]
+}
