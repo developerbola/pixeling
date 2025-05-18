@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,15 +33,10 @@ const Create = () => {
 
   const [open, setOpen] = useState<boolean>(false);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
-  const [inputHeight, setInputHeight] = useState(600);
 
   const saveValue = (value: string | boolean | string[], name: string) => {
-    setUploadData({ ...uploadData, [name]: value });
+    setUploadData((prev) => ({ ...prev, [name]: value }));
   };
-
-  useEffect(() => {
-    console.log(uploadData);
-  }, [uploadData]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -62,23 +57,13 @@ const Create = () => {
             <input
               type="file"
               className={cn(
-                "absolute top-0 left-0 opacity-0 w-[500px] cursor-pointer",
-                !uploadData.file ? "h-[600px]" : `h-[${inputHeight}px]`
+                "absolute top-0 left-0 opacity-0 w-[500px] h-[600px] cursor-pointer"
               )}
               onChange={(e) => {
                 const selectedFile = e.target.files?.[0];
                 if (!selectedFile) return;
-
                 const imageURL = URL.createObjectURL(selectedFile);
-
-                const img = new window.Image();
-
-                img.src = imageURL;
-
-                img.onload = () => {
-                  setInputHeight(img.naturalHeight);
-                  saveValue(imageURL, "file");
-                };
+                saveValue(imageURL, "file");
               }}
             />
             <div
@@ -175,7 +160,6 @@ const Create = () => {
               <Label htmlFor="allow-comment">Allow people to comment</Label>
               <Switch
                 id="allow-comment"
-                defaultChecked
                 checked={uploadData.isCommentable}
                 onCheckedChange={(checked) =>
                   saveValue(checked, "isCommentable")
