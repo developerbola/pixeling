@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./styles/index.css";
 import Navbar from "@/components/Navbar";
+import { NavigationEvents } from "@/components/ProgressLink";
 
 export const metadata: Metadata = {
   title: "Pixeling",
@@ -22,6 +23,7 @@ export default function RootLayout({
         /> */}
       </head>
       <body>
+        <NavigationEvents />
         <Navbar />
         <div className="px-5 pt-[80px]">{children}</div>
       </body>
