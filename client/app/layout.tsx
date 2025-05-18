@@ -26,9 +26,9 @@ export default function RootLayout({
       <body>
         <Suspense>
           <NavigationEvents />
+          <Navbar />
+          <div className="px-5 pt-[80px]">{children}</div>
         </Suspense>
-        <Navbar />
-        <div className="px-5 pt-[80px]">{children}</div>
       </body>
     </html>
   );
