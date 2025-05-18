@@ -1,3 +1,4 @@
+import DominantColorImage from "@/components/DominantColorImage";
 import ProgressLink from "@/components/ProgressLink";
 import Image from "next/image";
 
@@ -16,20 +17,21 @@ export default async function Home() {
 
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 gap-5">
-      {data.map((image: Image) => (
-        <ProgressLink href={`/${image.id}`} key={image.id}>
-          <div className="mb-5 break-inside-avoid flex flex-col gap-2">
-            <Image
-              src={image.download_url}
-              height={image.height}
-              width={image.width}
-              alt={image.author}
-              className="w-auto h-auto rounded-lg"
-            />
-            <h2>{image.author}</h2>
-          </div>
-        </ProgressLink>
-      ))}
+      {data.map((image: Image) => {
+        return (
+          <ProgressLink href={`/${image.id}`} key={image.id}>
+            <div className="mb-5 break-inside-avoid flex flex-col gap-2">
+              <DominantColorImage
+                src={image.download_url}
+                height={image.height}
+                width={image.width}
+                alt={image.author}
+              />
+              <h2>{image.author}</h2>
+            </div>
+          </ProgressLink>
+        );
+      })}
     </div>
   );
 }
