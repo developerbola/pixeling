@@ -38,6 +38,39 @@ const Create = () => {
     setUploadData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handlePublish = async () => {
+    const formData = new FormData();
+
+    if (uploadData.file.startsWith("blob:")) {
+      const response = await fetch(uploadData.file);
+      const blob = await response.blob();
+      formData.append("file", blob, "upload.png");
+    } else {
+      formData.append("imageUrl", uploadData.file);
+    }
+
+    formData.append("title", uploadData.title);
+    formData.append("description", uploadData.description);
+    formData.append(
+      "isCommentable",
+      uploadData.isCommentable ? "true" : "false"
+    );
+    formData.append("categories", JSON.stringify(uploadData.categories));
+
+    try {
+      const res = await fetch("http://localhost:8787/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      console.log(data);
+      alert("Image published successfully!");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to publish.");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between align-center px-[230px]">
@@ -45,7 +78,7 @@ const Create = () => {
           <h1 className="text-4xl">Publish Image</h1>
         </div>
         <div>
-          <Button variant={"secondary"}>
+          <Button variant={"secondary"} onClick={handlePublish}>
             Upload <Upload />
           </Button>
         </div>
