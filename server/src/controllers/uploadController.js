@@ -1,10 +1,6 @@
-import { Hono } from "hono";
-import { supabase } from "./supabase";
-import { cors } from "hono/cors";
-const app = new Hono();
-app.use("*", cors());
+import { supabase } from "../config/supabase.js";
 
-app.post("/upload", async (c) => {
+export const uploadController = async (c) => {
   const body = await c.req.formData();
   const file = body.get("file");
   const imageUrl = body.get("imageUrl");
@@ -17,15 +13,12 @@ app.post("/upload", async (c) => {
 
   if (file && typeof file.stream === "function") {
     const filePath = `images/${Date.now()}.png`;
-    console.log("Uploading to:", filePath);
 
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("images")
       .upload(filePath, file.stream(), {
         contentType: file.type,
       });
-
-    console.log("UPLOAD RESULT:", data, error);
 
     if (error) {
       return c.json({ error: error.message }, 500);
@@ -36,7 +29,6 @@ app.post("/upload", async (c) => {
       .getPublicUrl(filePath);
 
     publicUrl = publicUrlData.publicUrl;
-    console.log("Public URL:", publicUrl);
   } else if (imageUrl) {
     publicUrl = imageUrl;
   }
@@ -49,6 +41,4 @@ app.post("/upload", async (c) => {
     isCommentable,
     categories,
   });
-});
-
-export default { port: 8787, fetch: app.fetch };
+};
