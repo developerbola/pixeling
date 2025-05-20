@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "dev": "bun run --hot src/index.js"
+    "dev": "bun run --hot src/index.js",
+    "run": "bun run src/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
-    "hono": "^4.7.10"
+    "hono": "^4.7.10",
+    "zod": "^3.25.7"
   }
 }

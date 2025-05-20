@@ -81,12 +81,13 @@ const Create = () => {
     try {
       toast.promise(
         async () => {
-          const res = await fetch("http://localhost:8787/upload", {
+          await fetch("http://localhost:8787/upload", {
             method: "POST",
             body: formData,
+          }).then(async (res) => {
+            const data = await res.json();
+            console.log(data);
           });
-          const data = await res.json();
-          console.log(data);
         },
         {
           loading: "Uploading image...",
