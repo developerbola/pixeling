@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Upload } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getDominantColor } from "@/lib/utils";
 import { toast } from "sonner";
 
 const Create = () => {
@@ -91,7 +91,7 @@ const Create = () => {
         {
           loading: "Uploading image...",
           success: "Image published successfully",
-          error: "Error",
+          error: "Error uploading image",
         }
       );
     } catch (error) {
@@ -132,6 +132,15 @@ const Create = () => {
                 }
 
                 const imageURL = URL.createObjectURL(selectedFile);
+
+                getDominantColor(imageURL)
+                  .then((color) => {
+                    saveValue(color, "dominantColor");
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
+
                 saveValue(imageURL, "file");
                 setIsImageLoaded(false);
               }}
@@ -153,9 +162,7 @@ const Create = () => {
                     "w-full h-auto object-contain transition-all duration-300",
                     !isImageLoaded && `h-[600px] w-[500px]`
                   )}
-                  onLoad={(e) => {
-                    const img = e.currentTarget;
-                    const { height } = img.getBoundingClientRect();
+                  onLoad={() => {
                     setIsImageLoaded(true);
                   }}
                 />
