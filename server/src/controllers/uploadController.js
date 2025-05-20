@@ -34,7 +34,7 @@ export const uploadController = async (c) => {
   }
 
   return c.json({
-    success: true,
+    ok: true,
     publicUrl,
     title,
     description,

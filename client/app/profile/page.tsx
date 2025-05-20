@@ -41,7 +41,7 @@ const Profile = () => {
               width={200}
             />
           ) : (
-            <h1 className="text-6xl">{getCapitalLetters(user.name)}</h1>
+            <h1 className="text-6xl">{getCapitalLetters(user.name.trim())}</h1>
           )}
         </div>
         <div className="flex flex-col gap-3 w-1/4">

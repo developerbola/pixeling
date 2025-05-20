@@ -15,30 +15,50 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const Create = () => {
   const [uploadData, setUploadData] = useState<{
     file: string;
     title: string;
     description: string;
+    dominantColor: string;
     categories: string[];
     isCommentable: boolean;
   }>({
     file: "",
     title: "",
     description: "",
+    dominantColor: "",
     categories: [],
     isCommentable: true,
   });
 
   const [open, setOpen] = useState<boolean>(false);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const saveValue = (value: string | boolean | string[], name: string) => {
     setUploadData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePublish = async () => {
+    let missingFields = [];
+
+    if (!uploadData.file) missingFields.push("Image");
+    if (!uploadData.title.trim()) missingFields.push("Title");
+
+    if (missingFields.length > 0) {
+      toast("Missing required fields", {
+        description: `${missingFields.join(", ")} required.`,
+        action: {
+          label: "Okay",
+          onClick: () => {},
+        },
+      });
+      return;
+    }
+
     const formData = new FormData();
 
     if (uploadData.file.startsWith("blob:")) {
@@ -51,23 +71,32 @@ const Create = () => {
 
     formData.append("title", uploadData.title);
     formData.append("description", uploadData.description);
+    formData.append("categories", JSON.stringify(uploadData.categories));
+    formData.append("dominantColor", uploadData.dominantColor);
     formData.append(
       "isCommentable",
       uploadData.isCommentable ? "true" : "false"
     );
-    formData.append("categories", JSON.stringify(uploadData.categories));
 
     try {
-      const res = await fetch("http://localhost:8787/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      console.log(data);
-      alert("Image published successfully!");
+      toast.promise(
+        async () => {
+          const res = await fetch("http://localhost:8787/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await res.json();
+          console.log(data);
+        },
+        {
+          loading: "Uploading image...",
+          success: "Image published successfully",
+          error: "Error",
+        }
+      );
     } catch (error) {
-      console.log(error);
-      alert("Failed to publish.");
+      toast.error("Failed to publish.");
+      console.error("Error on publishing:", error);
     }
   };
 
@@ -89,30 +118,46 @@ const Create = () => {
           <div className="relative">
             <input
               type="file"
-              className={cn(
-                "absolute top-0 left-0 opacity-0 w-[500px] h-[600px] cursor-pointer"
-              )}
+              className={
+                "absolute top-0 left-0 w-[500px] h-[calc(100%-50px)] cursor-pointer opacity-0 rounded-2xl"
+              }
+              accept="image/png, image/jpeg"
               onChange={(e) => {
                 const selectedFile = e.target.files?.[0];
                 if (!selectedFile) return;
+
+                if (selectedFile.size > 5 * 1024 * 1024) {
+                  toast("Image must be less than 5MB!");
+                  return;
+                }
+
                 const imageURL = URL.createObjectURL(selectedFile);
                 saveValue(imageURL, "file");
+                setIsImageLoaded(false);
               }}
+              required
             />
+
             <div
               className={cn(
                 !uploadData.file &&
                   "h-[600px] w-[500px] grid place-items-center",
-                "max-w-[500px] rounded-2xl overflow-hidden bg-[#131313]"
+                "max-w-[500px] rounded-2xl overflow-hidden bg-[#181818]"
               )}
             >
               {uploadData.file ? (
-                <Image
+                <img
                   src={uploadData.file}
                   alt={uploadData.title}
-                  className="w-full h-auto object-contain"
-                  height={600}
-                  width={500}
+                  className={cn(
+                    "w-full h-auto object-contain transition-all duration-300",
+                    !isImageLoaded && `h-[600px] w-[500px]`
+                  )}
+                  onLoad={(e) => {
+                    const img = e.currentTarget;
+                    const { height } = img.getBoundingClientRect();
+                    setIsImageLoaded(true);
+                  }}
                 />
               ) : (
                 <Image
@@ -164,14 +209,15 @@ const Create = () => {
         <div className="w-[400px] flex flex-col gap-5">
           <div className="flex flex-col gap-3">
             <div>
-              <Label className="mb-2" htmlFor="tit;e">
+              <Label className="mb-2" htmlFor="title">
                 Title
               </Label>
               <Input
                 placeholder="Add image title"
                 id="title"
-                className="w-full"
+                className={cn("w-full")}
                 onChange={(e) => saveValue(e.target.value, "title")}
+                required
               />
             </div>
             <div>

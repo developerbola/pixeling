@@ -3,6 +3,7 @@ import "./styles/index.css";
 import Navbar from "@/components/Navbar";
 import { NavigationEvents } from "@/components/ProgressLink";
 import { Suspense } from "react";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Pixeling",
@@ -22,6 +23,7 @@ export default function RootLayout({
           <NavigationEvents />
           <Navbar />
           <div className="px-5 pt-[80px]">{children}</div>
+          <Toaster />
         </Suspense>
       </body>
     </html>
