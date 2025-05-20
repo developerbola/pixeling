@@ -11,4 +11,16 @@ export const imageUploadSchema = z.object({
     .optional()
     .nullable()
     .transform((val) => (val ? JSON.parse(val) : [])),
+
+  height: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : null))
+    .nullable(),
+
+  width: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : null))
+    .nullable(),
 });

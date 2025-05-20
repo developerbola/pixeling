@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Upload } from "lucide-react";
-import { cn, getDominantColor } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 const Create = () => {
@@ -23,6 +23,8 @@ const Create = () => {
     title: string;
     description: string;
     dominantColor: string;
+    height: number;
+    width: number;
     categories: string[];
     isCommentable: boolean;
   }>({
@@ -30,6 +32,8 @@ const Create = () => {
     title: "",
     description: "",
     dominantColor: "",
+    height: 0,
+    width: 0,
     categories: [],
     isCommentable: true,
   });
@@ -38,12 +42,15 @@ const Create = () => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-  const saveValue = (value: string | boolean | string[], name: string) => {
+  const saveValue = (
+    value: string | boolean | string[] | number,
+    name: string
+  ) => {
     setUploadData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePublish = async () => {
-    let missingFields = [];
+    const missingFields = [];
 
     if (!uploadData.file) missingFields.push("Image");
     if (!uploadData.title.trim()) missingFields.push("Title");
@@ -73,6 +80,8 @@ const Create = () => {
     formData.append("description", uploadData.description);
     formData.append("categories", JSON.stringify(uploadData.categories));
     formData.append("dominantColor", uploadData.dominantColor);
+    formData.append("height", uploadData.height.toString());
+    formData.append("width", uploadData.width.toString());
     formData.append(
       "isCommentable",
       uploadData.isCommentable ? "true" : "false"
@@ -80,15 +89,10 @@ const Create = () => {
 
     try {
       toast.promise(
-        async () => {
-          await fetch("http://localhost:8787/upload", {
-            method: "POST",
-            body: formData,
-          }).then(async (res) => {
-            const data = await res.json();
-            console.log(data);
-          });
-        },
+        fetch("http://localhost:8787/upload", {
+          method: "POST",
+          body: formData,
+        }).catch((err) => console.log(err)),
         {
           loading: "Uploading image...",
           success: "Image published successfully",
@@ -134,14 +138,6 @@ const Create = () => {
 
                 const imageURL = URL.createObjectURL(selectedFile);
 
-                getDominantColor(imageURL)
-                  .then((color) => {
-                    saveValue(color, "dominantColor");
-                  })
-                  .catch((err) => {
-                    console.error(err);
-                  });
-
                 saveValue(imageURL, "file");
                 setIsImageLoaded(false);
               }}
@@ -163,14 +159,20 @@ const Create = () => {
                     "w-full h-auto object-contain transition-all duration-300",
                     !isImageLoaded && `h-[600px] w-[500px]`
                   )}
-                  onLoad={() => {
+                  onLoad={(e) => {
                     setIsImageLoaded(true);
+                    saveValue(
+                      e.currentTarget.naturalHeight.toString(),
+                      "height"
+                    );
+                    saveValue(e.currentTarget.naturalWidth.toString(), "width");
                   }}
                 />
               ) : (
                 <Image
                   src={"/default_placeholder.svg"}
                   alt="default svg image placeholder"
+                  className="w-[200px] h-[100px]"
                   width={200}
                   height={100}
                 />
@@ -180,17 +182,23 @@ const Create = () => {
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild className="mt-4">
                 <Button className="w-full" variant={"outline"}>
-                  Save from link
+                  Save from Pinterest{" "}
+                  <Image
+                    src={"/pinterest.svg"}
+                    alt="pinterest icon"
+                    width={18}
+                    height={18}
+                  />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="flex flex-col gap-3 w-[500px]">
-                <h3>Enter your image url</h3>
+                <h3>Enter Pinterest pin url</h3>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
                     const url = formData.get("imageUrl") as string;
-                    if (url) {
+                    if (url && url.includes("https://i.pinimg.com")) {
                       saveValue(url, "file");
                       setOpen(false);
                     } else {
@@ -202,10 +210,10 @@ const Create = () => {
                 >
                   <Input
                     name="imageUrl"
-                    placeholder="Add image url"
+                    placeholder="Add here pin url"
                     type="url"
                     className={cn(
-                      isEmpty && "border-red-500 placeholder-red-500"
+                      isEmpty && "border-red-500 !placeholder-red-500"
                     )}
                   />
                   <Button type="submit">Continue</Button>

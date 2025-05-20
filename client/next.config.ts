@@ -9,7 +9,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "picsum.photos",
+        hostname: "i.pinimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: process.env.NEXT_PUBLIC_SUPABASE_LINK as string,
       },
     ],
   },
