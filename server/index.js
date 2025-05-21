@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { useCors } from "./middlewares/corsMiddleware.js";
-import { useRoutes } from "./routes/routes.js";
+import { useCors } from "./src/middlewares/corsMiddleware.js";
+import { useRoutes } from "./src/routes/routes.js";
 
 const app = new Hono();
 
