@@ -4,6 +4,7 @@ import { useRoutes } from "./routes/routes.js";
 import { handle } from "hono/vercel";
 
 const app = new Hono().basePath("/");
+export const runtime = 'nodejs'
 
 useCors(app);
 useRoutes(app);
