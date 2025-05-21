@@ -22,8 +22,8 @@ export default async function Home() {
   } catch (error) {
     console.error("Fetch error:", error);
     return (
-      <div className="grid place-items-center h-screen">
-        <h1 className="text-2xl">Unable to connect. You might be offline.</h1>
+      <div className="grid place-items-center h-[calc(90vh-80px)]">
+        <h1 className="text-2xl">Unable to connect. You or server might be offline.</h1>
       </div>
     );
   }
@@ -36,14 +36,14 @@ export default async function Home() {
         "Error: Unable to connect. Is the computer able to access the url?'"
     ) {
       return (
-        <div className="grid place-items-center h-screen">
+        <div className="grid place-items-center h-[calc(90vh-80px)]">
           <h1 className="text-2xl">Unable to connect to the server</h1>
         </div>
       );
     }
 
     return (
-      <div className="grid place-items-center h-screen">
+      <div className="grid place-items-center h-[calc(90vh-80px)]">
         <h1 className="text-2xl">Internal server error</h1>
       </div>
     );

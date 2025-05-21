@@ -16,13 +16,14 @@ import React, { useState } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const Create = () => {
+  const router = useRouter();
   const [uploadData, setUploadData] = useState<{
     file: string;
     title: string;
     description: string;
-    dominantColor: string;
     height: number;
     width: number;
     categories: string[];
@@ -31,7 +32,6 @@ const Create = () => {
     file: "",
     title: "",
     description: "",
-    dominantColor: "",
     height: 0,
     width: 0,
     categories: [],
@@ -79,7 +79,6 @@ const Create = () => {
     formData.append("title", uploadData.title);
     formData.append("description", uploadData.description);
     formData.append("categories", JSON.stringify(uploadData.categories));
-    formData.append("dominantColor", uploadData.dominantColor);
     formData.append("height", uploadData.height.toString());
     formData.append("width", uploadData.width.toString());
     formData.append(
@@ -88,17 +87,13 @@ const Create = () => {
     );
 
     try {
-      toast.promise(
-        fetch("http://localhost:8787/upload", {
-          method: "POST",
-          body: formData,
-        }).catch((err) => console.log(err)),
-        {
-          loading: "Uploading image...",
-          success: "Image published successfully",
-          error: "Error uploading image",
-        }
-      );
+      fetch("http://localhost:8787/upload", {
+        method: "POST",
+        body: formData,
+      }).then((data) => {
+        console.log(data);
+        router.push("/");
+      });
     } catch (error) {
       toast.error("Failed to publish.");
       console.error("Error on publishing:", error);
@@ -126,7 +121,7 @@ const Create = () => {
               className={
                 "absolute top-0 left-0 w-[500px] h-[calc(100%-50px)] cursor-pointer opacity-0 rounded-2xl"
               }
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/jpg"
               onChange={(e) => {
                 const selectedFile = e.target.files?.[0];
                 if (!selectedFile) return;
@@ -137,6 +132,8 @@ const Create = () => {
                 }
 
                 const imageURL = URL.createObjectURL(selectedFile);
+                const title = selectedFile.name.split(".")[0];
+                saveValue(title, "title");
 
                 saveValue(imageURL, "file");
                 setIsImageLoaded(false);
@@ -233,6 +230,7 @@ const Create = () => {
                 id="title"
                 className={cn("w-full")}
                 onChange={(e) => saveValue(e.target.value, "title")}
+                value={uploadData.title}
                 required
               />
             </div>
@@ -245,6 +243,7 @@ const Create = () => {
                 className="resize-none min-h-32"
                 placeholder="Add detailed image description"
                 onChange={(e) => saveValue(e.target.value, "description")}
+                value={uploadData.description}
               />
             </div>
             <div>

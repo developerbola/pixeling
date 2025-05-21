@@ -14,9 +14,6 @@ NProgress.configure({
   speed: 300,
 });
 
-// Global state for navigation
-let loadingTimeout: NodeJS.Timeout | null = null;
-
 /**
  * NavigationEvents - Add this to your root layout to ensure navigation progress works app-wide
  */
@@ -47,10 +44,6 @@ export function NavigationEvents() {
 
     // Clean up any pending timers on unmount
     return () => {
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout);
-        loadingTimeout = null;
-      }
       NProgress.done(true);
     };
   }, [pathname, searchParams, isFirstRender]);
@@ -64,7 +57,6 @@ interface ProgressLinkProps {
   children: React.ReactNode;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  timeoutMs?: number;
   props?: any;
 }
 
@@ -73,7 +65,6 @@ const ProgressLink = ({
   children,
   className,
   onClick,
-  timeoutMs = 8000,
   props,
 }: ProgressLinkProps) => {
   const pathname = usePathname();
@@ -104,13 +95,6 @@ const ProgressLink = ({
 
     // Start progress indicator for a navigation
     NProgress.start();
-
-    // Clear any existing timeout
-    if (loadingTimeout) {
-      clearTimeout(loadingTimeout);
-    }
-
-    // Set a safety timeout to ensure the progress always completes
   };
 
   useEffect(() => {
@@ -123,24 +107,5 @@ const ProgressLink = ({
     </Link>
   );
 };
-
-/**
- * Use this hook in your app to ensure navigation progress works globally
- */
-export function useNavigationProgress() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    // Ensure NProgress is complete on any route change
-    NProgress.done(true);
-
-    // Clear any existing timeout
-    if (loadingTimeout) {
-      clearTimeout(loadingTimeout);
-      loadingTimeout = null;
-    }
-  }, [pathname, searchParams]);
-}
 
 export default ProgressLink;
