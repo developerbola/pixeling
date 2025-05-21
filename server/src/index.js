@@ -3,7 +3,7 @@ import { useCors } from "./middlewares/corsMiddleware.js";
 import { useRoutes } from "./routes/routes.js";
 import { handle } from "hono/vercel";
 
-const app = new Hono().basePath("/");
+const app = new Hono().basePath("/api");
 export const runtime = 'nodejs'
 
 useCors(app);
