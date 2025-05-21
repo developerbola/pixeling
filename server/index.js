@@ -7,7 +7,4 @@ const app = new Hono();
 useCors(app);
 useRoutes(app);
 
-export default {
-  port: 8787,
-  fetch: app.fetch,
-};
+export default app.fetch;
