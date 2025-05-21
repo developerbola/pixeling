@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -248,7 +248,7 @@ const Create = () => {
             </div>
             <div>
               <Label className="mb-2">Categories</Label>
-              <Category saveValue={saveValue} />
+              <Category setUploadData={setUploadData} />
             </div>
             <div className="flex align-center justify-between">
               <Label htmlFor="allow-comment">Allow people to comment</Label>

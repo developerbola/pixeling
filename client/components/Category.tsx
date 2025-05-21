@@ -16,58 +16,41 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const categories = [
-  {
-    value: "technology",
-    label: "Technology",
-  },
-  {
-    value: "career",
-    label: "Career",
-  },
-  {
-    value: "business",
-    label: "Business",
-  },
-  {
-    value: "education",
-    label: "Education",
-  },
-  {
-    value: "sports",
-    label: "Sports",
-  },
-  {
-    value: "food",
-    label: "Food & Cooking",
-  },
-  {
-    value: "travel",
-    label: "Travel",
-  },
-  {
-    value: "clothing",
-    label: "Clothing",
-  },
-  {
-    value: "cars",
-    label: "Cars",
-  },
+  { value: "technology", label: "Technology" },
+  { value: "career", label: "Career" },
+  { value: "business", label: "Business" },
+  { value: "education", label: "Education" },
+  { value: "sports", label: "Sports" },
+  { value: "food", label: "Food & Cooking" },
+  { value: "travel", label: "Travel" },
+  { value: "clothing", label: "Clothing" },
+  { value: "cars", label: "Cars" },
 ];
 
 export function Category({
-  saveValue,
+  setUploadData,
 }: {
-  saveValue: (value: string | boolean | string[], name: string) => void;
+  setUploadData: Dispatch<
+    SetStateAction<{
+      file: string;
+      title: string;
+      description: string;
+      height: number;
+      width: number;
+      categories: string[];
+      isCommentable: boolean;
+    }>
+  >;
 }) {
   const [open, setOpen] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   useEffect(() => {
-    saveValue(selectedValues, "categories");
-  }, [selectedValues]);
+    setUploadData((prev) => ({ ...prev, selectedValues }));
+  }, [selectedValues, setUploadData]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

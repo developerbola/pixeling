@@ -3,7 +3,7 @@
 import Link from "next/link";
 import NProgress from "nprogress";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { AnchorHTMLAttributes, useEffect, useRef, useState } from "react";
 
 // Configure NProgress
 NProgress.configure({
@@ -57,7 +57,7 @@ interface ProgressLinkProps {
   children: React.ReactNode;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  props?: any;
+  props?: AnchorHTMLAttributes<HTMLAnchorElement>;
 }
 
 const ProgressLink = ({

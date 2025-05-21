@@ -13,8 +13,10 @@ export interface ImageType {
   categories: string[];
 }
 
+type DataType = { code: number; message: string } | ImageType[];
+
 export default async function Home() {
-  let data: any = [];
+  let data: DataType = [];
 
   try {
     const res = await fetch(`http://localhost:8787/images`);
@@ -23,7 +25,9 @@ export default async function Home() {
     console.error("Fetch error:", error);
     return (
       <div className="grid place-items-center h-[calc(90vh-80px)]">
-        <h1 className="text-2xl">Unable to connect. You or server might be offline.</h1>
+        <h1 className="text-2xl">
+          Unable to connect. You or server might be offline.
+        </h1>
       </div>
     );
   }
