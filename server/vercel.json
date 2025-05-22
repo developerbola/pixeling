@@ -1,12 +1,12 @@
 {
   "functions": {
     "src/index.js": {
-      "runtime": "@vercel/bun"
+      "runtime": "@vercel/bun@1.2.6"
     }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/src/(.*)",
       "destination": "/src"
     }
   ],
