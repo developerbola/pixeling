@@ -2,10 +2,11 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --hot api/index.js",
-    "run": "bun run api/index.js"
+    "serve": "bun run api/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
+    "dotenv": "^16.5.0",
     "hono": "^4.7.10",
     "jimp": "^1.6.0",
     "node-fetch": "^3.3.2",
