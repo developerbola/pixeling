@@ -1,20 +1,15 @@
 {
-  "functions": {
-    "src/index.js": {
-      "runtime": "@vercel/bun@1.2.6"
-    }
-  },
   "rewrites": [
     {
-      "source": "/src/(.*)",
-      "destination": "/src"
+      "source": "/api/(.*)",
+      "destination": "/api"
     }
   ],
   "redirects": [
-    {
-      "source": "/",
-      "destination": "/api",
-      "permanent": false
+    { 
+      "source": "/", 
+      "destination": "/api", 
+      "permanent": false 
     }
   ]
 }
