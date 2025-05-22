@@ -1,4 +1,4 @@
-import { z } from "zod";
+const { z } = require("zod");
 
 export const imageUploadSchema = z.object({
   title: z.string().min(1, "Title is required"),

@@ -3,7 +3,7 @@
  * @param {string} imageUrl - URL or path of the image to analyze
  * @returns {Promise<{r: number, g: number, b: number}>} - Dominant color as RGB object
  */
-import { Jimp } from "jimp";
+const { Jimp } = require("jimp");
 
 export async function getDominantColorOfImage(imageUrl) {
   try {

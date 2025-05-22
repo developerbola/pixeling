@@ -1,10 +1,9 @@
-import { Hono } from "hono";
-import { handle } from "hono/vercel";
-import "dotenv/config.js";
+const { Hono } = require("hono");
+const { handle } = require("hono/vercel");
+require("dotenv/config.js");
 
-import { useCors } from "../src/middlewares/corsMiddleware.js";
-import { useRoutes } from "../src/routes/useRoutes.js";
-
+const { useCors } = require("../src/middlewares/corsMiddleware.js");
+const { useRoutes } = require("../src/routes/useRoutes.js");
 
 const app = new Hono();
 
@@ -18,4 +17,4 @@ export const PATCH = handler;
 export const PUT = handler;
 export const OPTIONS = handler;
 
-export default app
+export default app;

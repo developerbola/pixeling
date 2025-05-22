@@ -1,7 +1,7 @@
-import { supabase } from "../config/supabase.js";
-import { getDominantColorOfImage } from "../helpers/getDominantColor.js";
-import { imageUploadSchema } from "../schema/image.schema.js";
-import { buffer } from "stream/consumers";
+const { supabase } = require("../config/supabase.js");
+const { getDominantColorOfImage } = require("../helpers/getDominantColor.js");
+const { imageUploadSchema } = require("../schema/image.schema.js");
+const { buffer } = require("stream/consumers");
 
 export const uploadController = async (c) => {
   try {

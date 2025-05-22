@@ -1,5 +1,5 @@
-import { getImages } from "../controllers/get-images.contoller";
-import { uploadController } from "../controllers/upload.controller";
+const { getImages } = require("../controllers/get-images.contoller");
+const { uploadController } = require("../controllers/upload.controller");
 
 export const useRoutes = (app) => {
   app.get("/images", getImages);
