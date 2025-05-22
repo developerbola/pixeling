@@ -1,20 +1,20 @@
-const { Hono } = require("hono");
-const { handle } = require("hono/vercel");
-require("dotenv/config.js");
+import { Hono } from "hono"
+import { handle } from "hono/vercel"
+import dotenv from "dotenv"
+dotenv.config()
 
-const { useCors } = require("../src/middlewares/corsMiddleware.js");
-const { useRoutes } = require("../src/routes/useRoutes.js");
+// Import your middleware and routes
+import { useCors } from "../src/middlewares/corsMiddleware.js"
+import { useRoutes } from "../src/routes/useRoutes.js"
 
-const app = new Hono().basePath("/");
+// Create the Hono app without basePath
+const app = new Hono()
 
-useCors(app);
-useRoutes(app);
+// Apply middleware and routes
+const useCorsHook = useCors
+const useRoutesHook = useRoutes
+useCorsHook(app)
+useRoutesHook(app)
 
-const handler = handle(app);
-export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
-export const PUT = handler;
-export const OPTIONS = handler;
-
-export default app;
+// Export the handle function for Vercel
+export default handle(app)
