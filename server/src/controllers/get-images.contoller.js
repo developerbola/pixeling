@@ -1,6 +1,6 @@
 const { supabase } = require("../config/supabase.js");
 
-export const getImages = async (c) => {
+const getImages = async (c) => {
   try {
     const { data, error } = await supabase.from("image-list").select("*");
 
@@ -13,3 +13,5 @@ export const getImages = async (c) => {
     return c.json({ message: error.message || error, code: 500 });
   }
 };
+
+module.exports = { getImages };

@@ -1,7 +1,8 @@
 {
+  "type": "commonjs",
   "scripts": {
-    "dev": "bun run --hot api/index.js",
-    "serve": "bun run api/index.js"
+    "dev": "bun run --hot api/index.cjs",
+    "serve": "bun run api/index.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",

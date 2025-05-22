@@ -1,5 +1,7 @@
 const { cors } = require("hono/cors");
 
-export const useCors = (app) => {
+const useCors = (app) => {
   app.use("*", cors());
 };
+
+module.exports = { useCors };

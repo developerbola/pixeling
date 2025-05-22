@@ -3,7 +3,7 @@ const { getDominantColorOfImage } = require("../helpers/getDominantColor.js");
 const { imageUploadSchema } = require("../schema/image.schema.js");
 const { buffer } = require("stream/consumers");
 
-export const uploadController = async (c) => {
+const uploadController = async (c) => {
   try {
     const body = await c.req.formData();
 
@@ -43,14 +43,10 @@ export const uploadController = async (c) => {
     let publicUrl = "";
     let dominantColor = "";
 
-    // If file uploaded, save to storage and extract dominant color
     if (file && typeof file.stream === "function") {
       const filePath = `${Date.now()}.png`;
-
-      // Convert file stream to buffer
       const fileBuffer = await buffer(file.stream());
 
-      // Upload file to Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from("images")
         .upload(filePath, fileBuffer, {
@@ -76,31 +72,27 @@ export const uploadController = async (c) => {
 
       publicUrl = publicUrlData.publicUrl;
 
-      // Extract dominant color from uploaded file
       try {
         const rgbColor = await getDominantColorOfImage(publicUrl);
-        // Convert RGB object to CSS color string
         dominantColor = `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`;
       } catch (colorError) {
         console.error("Color extraction error:", colorError);
-        dominantColor = "rgb(255, 255, 255)"; // Default to white
+        dominantColor = "rgb(255, 255, 255)";
       }
     } else if (imageUrl) {
       publicUrl = imageUrl;
-      // Extract dominant color from imageUrl
+
       try {
         const rgbColor = await getDominantColorOfImage(imageUrl);
-        // Convert RGB object to CSS color string
         dominantColor = `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`;
       } catch (colorError) {
         console.error("Color extraction error:", colorError);
-        dominantColor = "rgb(0, 0, 0)"; // Default to white
+        dominantColor = "rgb(0, 0, 0)";
       }
     } else {
       return c.json({ error: "No image provided" }, 400);
     }
 
-    // Inserting image to "image-list" table
     const { error: insertError } = await supabase.from("image-list").insert([
       {
         title,
@@ -128,3 +120,5 @@ export const uploadController = async (c) => {
     return c.json({ error: "Unexpected server error" }, 500);
   }
 };
+
+module.exports = { uploadController };

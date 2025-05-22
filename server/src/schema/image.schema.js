@@ -1,6 +1,6 @@
 const { z } = require("zod");
 
-export const imageUploadSchema = z.object({
+const imageUploadSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional().nullable(),
   imageUrl: z.string().url().optional().nullable(),
@@ -23,3 +23,5 @@ export const imageUploadSchema = z.object({
     .transform((val) => (val ? parseInt(val, 10) : null))
     .nullable(),
 });
+
+module.exports = { imageUploadSchema };
