@@ -1,12 +1,15 @@
 import { Hono } from "hono";
-import { useCors } from "../src/middlewares/corsMiddleware.js";
-import { useRoutes } from "../src/routes/routes.js";
 import { handle } from "hono/vercel";
 
 const app = new Hono().basePath("/api");
 
-useCors(app);
-useRoutes(app);
+app.get("/", (c) => {
+  return c.json({ message: "Hello from Hono on Vercel!" });
+});
+
+app.get("/test", (c) => {
+  return c.json({ message: "Test route working!" });
+});
 
 const handler = handle(app);
 
