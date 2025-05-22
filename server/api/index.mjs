@@ -12,7 +12,7 @@ useCors(app);
 useRoutes(app);
 
 // Export the Vercel handler and HTTP method handlers
-export default app;
+export default handle(app);
 export const GET = handle(app);
 export const POST = handle(app);
 export const PUT = handle(app);
