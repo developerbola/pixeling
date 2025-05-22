@@ -8,11 +8,6 @@ const app = new Hono().basePath("/api");
 useCors(app);
 useRoutes(app);
 
-// Test route
-app.get("/test", (c) => {
-  return c.json({ message: "Test route working!" });
-});
-
 const handler = handle(app);
 
 export const GET = handler;
