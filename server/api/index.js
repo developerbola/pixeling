@@ -5,7 +5,7 @@ require("dotenv/config.js");
 const { useCors } = require("../src/middlewares/corsMiddleware.js");
 const { useRoutes } = require("../src/routes/useRoutes.js");
 
-const app = new Hono();
+const app = new Hono().basePath("/");
 
 useCors(app);
 useRoutes(app);
