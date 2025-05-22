@@ -1,5 +1,4 @@
 {
-  "type": "commonjs",
   "scripts": {
     "dev": "bun run --hot api/index.js",
     "serve": "bun run api/index.js"
@@ -11,5 +10,8 @@
     "jimp": "^1.6.0",
     "node-fetch": "^3.3.2",
     "zod": "^3.25.7"
+  },
+  "devDependencies": {
+    "vercel": "^32.4.1"
   }
 }

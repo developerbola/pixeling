@@ -11,6 +11,7 @@ import { useRoutes } from "../src/routes/useRoutes.js"
 const useCorsHook = useCors
 const useRoutesHook = useRoutes
 
+export const runtime = "bun"
 // Create the Hono app without basePath
 const app = new Hono()
 useCorsHook(app)
