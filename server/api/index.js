@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { useCors } from "./middlewares/corsMiddleware.js";
-import { useRoutes } from "./routes/routes.js";
+import { useCors } from "../src/middlewares/corsMiddleware.js";
+import { useRoutes } from "../src/routes/routes.js";
 import { handle } from "hono/vercel";
 
 const app = new Hono().basePath("/api");
