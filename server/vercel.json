@@ -1,7 +1,7 @@
 {
   "functions": {
     "src/index.js": {
-      "runtime": "@vercel/node"
+      "runtime": "@vercel/bun"
     }
   },
   "rewrites": [
