@@ -7,6 +7,6 @@ export const useRoutes = (app) => {
     return c.json({ message: "Test route working!" });
   });
 
-  app.get("/images", getImages);
+  // app.get("/images", getImages);
   // app.post("/upload", uploadController);
 };
