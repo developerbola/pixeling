@@ -1,9 +1,20 @@
 {
+  "functions": {
+    "src/index.js": {
+      "runtime": "@vercel/node"
+    }
+  },
   "rewrites": [
     {
-      "source": "/src/(.*)",
-      "destination": "/api"
+      "source": "/api/(.*)",
+      "destination": "/src"
     }
   ],
-  "redirects": [{ "source": "/", "destination": "/api", "permanent": false }]
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/api",
+      "permanent": false
+    }
+  ]
 }
