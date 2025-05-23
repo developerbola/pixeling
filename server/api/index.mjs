@@ -7,14 +7,14 @@ import { useCors } from "../src/middlewares/corsMiddleware.js";
 import { useRoutes } from "../src/routes/useRoutes.js";
 
 // Initialize app and apply middlewares
-const app = new Hono();
+const app = new Hono().basePath("/api");
 
 // Use hooks
 useCors(app);
 useRoutes(app);
 
 app.get("/", (c) => {
-  c.json({ message: "hello" });
+  c.json({ message: "Pixeling server is working" }, 200);
 });
 
 // Export the Vercel handler and HTTP method handlers
