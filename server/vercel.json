@@ -1,5 +1,5 @@
 {
-  "routes": [
+  "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/"
