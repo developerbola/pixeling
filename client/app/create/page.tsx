@@ -87,7 +87,7 @@ const Create = () => {
     );
 
     try {
-      fetch("http://localhost:8787/upload", {
+      fetch(`${process.env.NEXT_PUBLIC_BAKCEND_URL}/upload`, {
         method: "POST",
         body: formData,
       }).then((data) => {
