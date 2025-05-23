@@ -3,6 +3,7 @@ import ProgressLink from "@/components/ProgressLink";
 
 export interface ImageType {
   id: string;
+  created_at: string;
   title: string;
   description: string;
   dominantColor: string;
