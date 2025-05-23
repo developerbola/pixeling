@@ -7,7 +7,7 @@ import { useCors } from "../src/middlewares/corsMiddleware.js";
 import { useRoutes } from "../src/routes/useRoutes.js";
 
 // Initialize app and apply middlewares
-const app = new Hono().basePath("/api");
+const app = new Hono().basePath("/");
 
 // Use hooks
 useCors(app);
