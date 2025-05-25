@@ -17,8 +17,8 @@ const getDominantColorOfImage = async (imageUrl) => {
     const targetHeight = Math.round(targetWidth * aspectRatio);
 
     image.resize({
-      width: targetWidth,
-      height: targetHeight,
+      w: targetWidth,
+      h: targetHeight,
     });
 
     // Create object to count color occurrences
