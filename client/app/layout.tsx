@@ -1,16 +1,10 @@
-import type { Metadata } from "next";
+"use client";
+
 import "./styles/index.css";
 import Navbar from "@/components/Navbar";
-import { NavigationEvents } from "@/components/ProgressLink";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
-
-export const metadata: Metadata = {
-  title: "Pixeling",
-  description: "A gallery app built with NextJS and Supabase",
-  icons: "/logo.svg",
-};
-
+import NextTopLoader from "nextjs-toploader";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,9 +12,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Pixeling</title>
+        <meta
+          name="description"
+          content="A gallery app built with NextJS, Shadcn, HonoJS, Supabase"
+        />
+        <link rel="icon" href="/logo.svg" type="image/svg" />
+      </head>
       <body>
+        <NextTopLoader
+          color="#ffffff"
+          height={3}
+          shadow="0 0 8px 2px #ffffff70, 0 0 20px 6px #ffffff40"
+        />
+
         <Suspense>
-          <NavigationEvents />
           <Navbar />
           <div className="px-5 pt-[80px]">{children}</div>
           <Toaster />

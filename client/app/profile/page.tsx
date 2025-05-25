@@ -30,8 +30,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-80px)] flex align-center justify-center">
-      <div className="flex flex-col gap-3 w-1/2 align-center justify-center">
+    <div className="w-full min-h-[calc(100vh-80px)] flex items-center justify-center p-4">
+      <div className="flex flex-col gap-6 w-full max-w-5xl items-start exs:pl-0 sm:px-28 md:pl-40">
+        {/* Profile Image */}
         <div className="h-[200px] w-[200px] border shadow-xs rounded-xl overflow-hidden grid place-items-center">
           {false ? (
             <Image
@@ -44,42 +45,45 @@ const Profile = () => {
             <h1 className="text-6xl">{getCapitalLetters(user.name.trim())}</h1>
           )}
         </div>
-        <div className="flex flex-col gap-3 w-1/4">
+
+        {/* Form Section */}
+        <div className="flex flex-col gap-4 w-full max-w-[500px]">
           <div className="flex flex-col gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
               name="name"
-              className="w-[400px]"
+              className="w-full"
               value={user.name}
               onChange={(e) => handleChange(e)}
             />
           </div>
+
           <div className="flex flex-col gap-2">
             <Label htmlFor="username">Username</Label>
             <Input
               id="username"
               name="username"
-              className="w-[400px]"
+              className="w-full"
               value={user.username}
               onChange={(e) => handleChange(e)}
             />
           </div>
+
           <div className="flex flex-col gap-2">
             <Label htmlFor="bio">Bio</Label>
             <Textarea
               id="bio"
               name="bio"
-              className="h-32 resize-none w-[400px]"
+              className="h-32 resize-none w-full"
               value={user.bio}
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div>
-            <Button variant={"outline"} className="px-6">
-              Save
-            </Button>
-          </div>
+
+          <Button variant={"outline"} className="px-6 w-full xs:w-auto">
+            Save
+          </Button>
         </div>
       </div>
     </div>

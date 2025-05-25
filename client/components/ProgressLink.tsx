@@ -14,44 +14,6 @@ NProgress.configure({
   speed: 300,
 });
 
-/**
- * NavigationEvents - Add this to your root layout to ensure navigation progress works app-wide
- */
-export function NavigationEvents() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [isFirstRender, setIsFirstRender] = useState(true);
-  const prevPathRef = useRef<string>("");
-
-  useEffect(() => {
-    // Skip the first render to avoid showing progress on initial page load
-    if (isFirstRender) {
-      setIsFirstRender(false);
-      prevPathRef.current = pathname + searchParams.toString();
-      return;
-    }
-
-    const currentPath = pathname + searchParams.toString();
-
-    // Only process actual navigation events (path changed)
-    if (prevPathRef.current !== currentPath) {
-      // Ensure NProgress is complete with a forced done call
-      NProgress.done(true);
-
-      // Update the prev path ref
-      prevPathRef.current = currentPath;
-    }
-
-    // Clean up any pending timers on unmount
-    return () => {
-      NProgress.done(true);
-    };
-  }, [pathname, searchParams, isFirstRender]);
-
-  // This component doesn't render anything
-  return null;
-}
-
 interface ProgressLinkProps {
   href: string;
   children: React.ReactNode;
@@ -71,35 +33,35 @@ const ProgressLink = ({
   const searchParams = useSearchParams();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Run any additional onClick handler provided
-    if (onClick) {
-      onClick(e);
-    }
+    // // Run any additional onClick handler provided
+    // if (onClick) {
+    //   onClick(e);
+    // }
 
-    // Compare paths to check if we're clicking the same route
-    const currentFullPath = pathname + searchParams.toString();
-    const hrefPath = href.split("?")[0].split("#")[0];
-    const currentPath = pathname;
+    // // Compare paths to check if we're clicking the same route
+    // const currentFullPath = pathname + searchParams.toString();
+    // const hrefPath = href.split("?")[0].split("#")[0];
+    // const currentPath = pathname;
 
-    // Don't start progress if clicking the same exact path with no params/hash
-    if (href === currentFullPath) {
-      return;
-    }
+    // // Don't start progress if clicking the same exact path with no params/hash
+    // if (href === currentFullPath) {
+    //   return;
+    // }
 
-    // For same base path but with different query/hash, still show a short progress
-    if (hrefPath === currentPath) {
-      NProgress.set(0.4);
-      setTimeout(() => NProgress.done(true), 300);
-      return;
-    }
+    // // For same base path but with different query/hash, still show a short progress
+    // if (hrefPath === currentPath) {
+    //   NProgress.set(0.4);
+    //   setTimeout(() => NProgress.done(true), 300);
+    //   return;
+    // }
 
-    // Start progress indicator for a navigation
-    NProgress.start();
+    // // Start progress indicator for a navigation
+    // NProgress.start();
   };
 
-  useEffect(() => {
-    NProgress.done(true);
-  }, [pathname, searchParams]);
+  // useEffect(() => {
+  //   NProgress.done(true);
+  // }, [pathname, searchParams]);
 
   return (
     <Link href={href} onClick={handleClick} className={className} {...props}>

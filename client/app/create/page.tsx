@@ -101,26 +101,25 @@ const Create = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex justify-between align-center px-[230px]">
-        <div>
-          <h1 className="text-4xl">Publish Image</h1>
-        </div>
-        <div>
-          <Button variant={"secondary"} onClick={handlePublish}>
-            Upload <Upload />
-          </Button>
-        </div>
+    <div className="flex flex-col gap-6 exs:pb-10 xs:pb-0">
+      <div className="flex justify-between items-center gap-4 px-4 xs:px-6 md:px-16 lg:px-[230px]">
+        <h1 className="text-2xl xs:text-3xl md:text-4xl">Publish Image</h1>
+        <Button
+          variant={"secondary"}
+          onClick={handlePublish}
+          className="w-auto"
+        >
+          Upload <Upload className="ml-2" />
+        </Button>
       </div>
 
-      <div className="flex justify-center gap-10">
-        <div className="flex items-center justify-center relative h-full">
-          <div className="relative">
+      <div className="flex flex-col lg:flex-row justify-center gap-6 xs:gap-8 md:gap-10 px-4 xs:px-6 md:px-16">
+        {/* Image Upload Section */}
+        <div className="flex flex-col items-center justify-center relative w-full max-w-[500px]">
+          <div className="relative w-full">
             <input
               type="file"
-              className={
-                "absolute top-0 left-0 w-[500px] h-[calc(100%-50px)] cursor-pointer opacity-0 rounded-2xl"
-              }
+              className="absolute top-0 left-0 w-full h-[calc(100%-50px)] cursor-pointer rounded-2xl opacity-0"
               accept="image/png, image/jpeg, image/jpg"
               onChange={(e) => {
                 const selectedFile = e.target.files?.[0];
@@ -134,7 +133,6 @@ const Create = () => {
                 const imageURL = URL.createObjectURL(selectedFile);
                 const title = selectedFile.name.split(".")[0];
                 saveValue(title, "title");
-
                 saveValue(imageURL, "file");
                 setIsImageLoaded(false);
               }}
@@ -143,9 +141,8 @@ const Create = () => {
 
             <div
               className={cn(
-                !uploadData.file &&
-                  "h-[600px] w-[500px] grid place-items-center",
-                "max-w-[500px] rounded-2xl overflow-hidden bg-[#181818]"
+                !uploadData.file && "aspect-[5/6] grid place-items-center",
+                "w-full exs:max-w-full sm:max-w-[500px] xs:max-w-[280px] rounded-2xl overflow-hidden bg-[#181818]"
               )}
             >
               {uploadData.file ? (
@@ -154,7 +151,7 @@ const Create = () => {
                   alt={uploadData.title}
                   className={cn(
                     "w-full h-auto object-contain transition-all duration-300",
-                    !isImageLoaded && `h-[600px] w-[500px]`
+                    !isImageLoaded && "aspect-[5/6]"
                   )}
                   onLoad={(e) => {
                     setIsImageLoaded(true);
@@ -168,10 +165,10 @@ const Create = () => {
               ) : (
                 <Image
                   src={"/default_placeholder.svg"}
-                  alt="default svg image placeholder"
-                  className="w-[200px] h-[100px]"
+                  alt="default"
                   width={200}
                   height={100}
+                  className="w-[150px] h-[80px]"
                 />
               )}
             </div>
@@ -179,16 +176,17 @@ const Create = () => {
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild className="mt-4">
                 <Button className="w-full" variant={"outline"}>
-                  Save from Pinterest{" "}
+                  Save from Pinterest
                   <Image
                     src={"/pinterest.svg"}
-                    alt="pinterest icon"
+                    alt="Pinterest"
                     width={18}
                     height={18}
+                    className="ml-2"
                   />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="flex flex-col gap-3 w-[500px]">
+              <PopoverContent className="flex flex-col gap-3 w-full max-w-[500px] exs:max-w-[280px]">
                 <h3>Enter Pinterest pin url</h3>
                 <form
                   onSubmit={(e) => {
@@ -219,48 +217,42 @@ const Create = () => {
             </Popover>
           </div>
         </div>
-        <div className="w-[400px] flex flex-col gap-5">
-          <div className="flex flex-col gap-3">
-            <div>
-              <Label className="mb-2" htmlFor="title">
-                Title
-              </Label>
-              <Input
-                placeholder="Add image title"
-                id="title"
-                className={cn("w-full")}
-                onChange={(e) => saveValue(e.target.value, "title")}
-                value={uploadData.title}
-                required
-              />
-            </div>
-            <div>
-              <Label className="mb-2" htmlFor="textarea">
-                Description
-              </Label>
-              <Textarea
-                id="textarea"
-                className="resize-none min-h-32"
-                placeholder="Add detailed image description"
-                onChange={(e) => saveValue(e.target.value, "description")}
-                value={uploadData.description}
-              />
-            </div>
-            <div>
-              <Label className="mb-2">Categories</Label>
-              <Category setUploadData={setUploadData} />
-            </div>
-            <div className="flex align-center justify-between">
-              <Label htmlFor="allow-comment">Allow people to comment</Label>
-              <Switch
-                id="allow-comment"
-                checked={uploadData.isCommentable}
-                onCheckedChange={(checked) =>
-                  saveValue(checked, "isCommentable")
-                }
-                className="cursor-pointer"
-              />
-            </div>
+
+        {/* Form Section */}
+        <div className="flex flex-col gap-5 w-full max-w-[500px]">
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              placeholder="Add image title"
+              onChange={(e) => saveValue(e.target.value, "title")}
+              value={uploadData.title}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="textarea">Description</Label>
+            <Textarea
+              id="textarea"
+              className="resize-none min-h-32"
+              placeholder="Add detailed image description"
+              onChange={(e) => saveValue(e.target.value, "description")}
+              value={uploadData.description}
+            />
+          </div>
+
+          <div>
+            <Label>Categories</Label>
+            <Category setUploadData={setUploadData} />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <Label htmlFor="allow-comment">Allow comments</Label>
+            <Switch
+              id="allow-comment"
+              checked={uploadData.isCommentable}
+              onCheckedChange={(checked) => saveValue(checked, "isCommentable")}
+            />
           </div>
         </div>
       </div>
