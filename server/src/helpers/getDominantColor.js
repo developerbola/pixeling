@@ -3,6 +3,7 @@
  * @param {string} imageUrl - URL or path of the image to analyze
  * @returns {Promise<{r: number, g: number, b: number}>} - Dominant color as RGB object
  */
+
 const { Jimp } = require("jimp");
 
 const getDominantColorOfImage = async (imageUrl) => {
@@ -11,7 +12,7 @@ const getDominantColorOfImage = async (imageUrl) => {
     const image = await Jimp.read(imageUrl);
 
     // Resize image to reduce processing time (optional)
-    image.resize(100, Jimp.AUTO);
+    image.resize(100, 300);
 
     // Create object to count color occurrences
     const colorCounts = {};
