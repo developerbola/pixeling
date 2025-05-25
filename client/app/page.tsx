@@ -56,10 +56,10 @@ export default async function Home() {
 
   // Normal render if data is good
   return (
-    <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 gap-5">
+    <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
       {data.map((image: ImageType) => (
         <ProgressLink href={`/${image.id}`} key={image.id}>
-          <div className="mb-5 break-inside-avoid flex flex-col gap-2">
+          <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
             <ImageItem image={image} />
             <h2>{image.title}</h2>
           </div>

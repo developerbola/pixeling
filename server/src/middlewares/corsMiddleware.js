@@ -4,7 +4,7 @@ const useCors = (app) => {
   app.use(
     "*",
     cors({
-      origin: ["https://your-allowed-origin.com", "http://localhost:3000"],
+      origin: ["https://pixeling.vercel.app", "http://localhost:3001"],
       allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowHeaders: ["Content-Type", "Authorization"],
       exposeHeaders: ["Content-Length"],

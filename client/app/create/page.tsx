@@ -87,7 +87,8 @@ const Create = () => {
     );
 
     try {
-      fetch(`${process.env.NEXT_PUBLIC_BAKCEND_URL}/upload`, {
+      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
         method: "POST",
         body: formData,
       }).then((data) => {
