@@ -1,5 +1,5 @@
 import ImageItem from "@/components/ImageItem";
-import ProgressLink from "@/components/ProgressLink";
+import Link from "next/link";
 
 export interface ImageType {
   id: string;
@@ -58,12 +58,12 @@ export default async function Home() {
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
       {data.map((image: ImageType) => (
-        <ProgressLink href={`/${image.id}`} key={image.id}>
+        <Link href={`/${image.id}`} key={image.id}>
           <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
             <ImageItem image={image} />
             <h2>{image.title}</h2>
           </div>
-        </ProgressLink>
+        </Link>
       ))}
     </div>
   );

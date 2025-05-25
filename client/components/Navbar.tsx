@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Search from "./Search";
-import ProgressLink from "./ProgressLink";
 
 const Navbar = () => {
   return (
@@ -42,12 +41,12 @@ const Navbar = () => {
             <DropdownMenuContent>
               <DropdownMenuLabel>Options</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <ProgressLink href={"/profile"}>
+              <Link href={"/profile"}>
                 <DropdownMenuItem>Profile</DropdownMenuItem>
-              </ProgressLink>
-              <ProgressLink href={"/create"}>
+              </Link>
+              <Link href={"/create"}>
                 <DropdownMenuItem>Create</DropdownMenuItem>
-              </ProgressLink>
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
