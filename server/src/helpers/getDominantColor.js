@@ -12,7 +12,14 @@ const getDominantColorOfImage = async (imageUrl) => {
     const image = await Jimp.read(imageUrl);
 
     // Resize image to reduce processing time (optional)
-    image.resize({ w: 300, h: 300 });
+    const targetWidth = 100;
+    const aspectRatio = image.bitmap.height / image.bitmap.width;
+    const targetHeight = Math.round(targetWidth * aspectRatio);
+
+    image.resize({
+      width: targetWidth,
+      height: targetHeight,
+    });
 
     // Create object to count color occurrences
     const colorCounts = {};
