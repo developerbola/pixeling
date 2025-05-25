@@ -77,7 +77,7 @@ const uploadController = async (c) => {
         dominantColor = `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`;
       } catch (colorError) {
         console.error("Color extraction error:", colorError);
-        dominantColor = "rgb(255, 255, 255)";
+        dominantColor = "rgb(0, 0, 0)";
       }
     } else if (imageUrl) {
       publicUrl = imageUrl;
