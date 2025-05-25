@@ -87,7 +87,6 @@ const Create = () => {
     );
 
     try {
-      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
       fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
         method: "POST",
         body: formData,
