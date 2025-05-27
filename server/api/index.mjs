@@ -8,7 +8,6 @@ import { useRoutes } from "../src/routes/useRoutes.js";
 
 // Initialize app and apply middlewares
 const app = new Hono().basePath("/api");
-
 // Use hooks
 useCors(app);
 useRoutes(app);

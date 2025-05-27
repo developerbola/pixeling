@@ -1,12 +1,15 @@
 const { cors } = require("hono/cors");
 
+const ALLOWED_ORIGIN =
+  process.env.NODE_ENV === "production" ? "https://pixeling.vercel.app" : "*";
+
 const useCors = (app) => {
   app.use(
-    "*",
+    "/api/*",
     cors({
-      origin: "https://pixeling.vercel.app",
-      allowMethods: ["GET", "POST", "DELETE", "OPTIONS"],
-      allowHeaders: ["Content-Type", "Authorization"],
+      origin: ALLOWED_ORIGIN,
+      allowMethods: ["*"],
+      allowHeaders: ["*"],
     })
   );
 };
