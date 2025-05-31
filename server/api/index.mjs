@@ -3,13 +3,14 @@ dotenv.config();
 
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { useCors } from "../src/middlewares/corsMiddleware.js";
 import { useRoutes } from "../src/routes/useRoutes.js";
+import { cors } from "hono/cors";
 
 // Initialize app and apply middlewares
 const app = new Hono().basePath("/api");
+// Middlewares
+app.use("/api/*", cors());
 // Use hooks
-useCors(app);
 useRoutes(app);
 
 app.get("/", (c) => {
