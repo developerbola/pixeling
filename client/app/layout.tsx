@@ -25,6 +25,7 @@ export default function RootLayout({
           color="#ffffff"
           height={3}
           shadow="0 0 8px 2px #ffffff70, 0 0 20px 6px #ffffff40"
+          showSpinner={false}
         />
 
         <Suspense>

@@ -113,7 +113,7 @@ const Create = () => {
         </Button>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-center gap-6 xs:gap-8 md:gap-10 px-4 xs:px-6 md:px-16">
+      <div className="flex flex-col lg:flex-row justify-center md:items-start items-center gap-6 xs:gap-8 md:gap-10 px-4 xs:px-6 md:px-16">
         {/* Image Upload Section */}
         <div className="flex flex-col items-center justify-center relative w-full max-w-[500px]">
           <div className="relative w-full">
@@ -186,7 +186,7 @@ const Create = () => {
                   />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="flex flex-col gap-3 w-full max-w-[500px] exs:max-w-[280px]">
+              <PopoverContent className="flex flex-col gap-3 w-[500px]">
                 <h3>Enter Pinterest pin url</h3>
                 <form
                   onSubmit={(e) => {
