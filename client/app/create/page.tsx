@@ -169,6 +169,7 @@ const Create = () => {
                   width={200}
                   height={100}
                   className="w-[150px] h-[80px]"
+                  priority
                 />
               )}
             </div>
@@ -221,7 +222,9 @@ const Create = () => {
         {/* Form Section */}
         <div className="flex flex-col gap-5 w-full max-w-[500px]">
           <div>
-            <Label htmlFor="title">Title</Label>
+            <Label className="mb-1" htmlFor="title">
+              Title
+            </Label>
             <Input
               id="title"
               placeholder="Add image title"
@@ -231,7 +234,9 @@ const Create = () => {
           </div>
 
           <div>
-            <Label htmlFor="textarea">Description</Label>
+            <Label className="mb-1" htmlFor="textarea">
+              Description
+            </Label>
             <Textarea
               id="textarea"
               className="resize-none min-h-32"
@@ -242,12 +247,14 @@ const Create = () => {
           </div>
 
           <div>
-            <Label>Categories</Label>
+            <Label className="mb-1">Categories</Label>
             <Category setUploadData={setUploadData} />
           </div>
 
           <div className="flex items-center justify-between">
-            <Label htmlFor="allow-comment">Allow comments</Label>
+            <Label className="mb-1" htmlFor="allow-comment">
+              Allow comments
+            </Label>
             <Switch
               id="allow-comment"
               checked={uploadData.isCommentable}

@@ -3,8 +3,8 @@
 import { useParams } from "next/navigation";
 
 const Image = () => {
-  const { id } = useParams();
-  return <div>Image: {id}</div>;
+  const { uuid } = useParams();
+  return <div>Image: {uuid}</div>;
 };
 
 export default Image;

@@ -6,8 +6,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getCapitalLetters(name: string): string {
+  if (!name) return "";
   if (name.split(" ")[1] === undefined) {
-    return (name.split(" ")[0][0] + name.split(" ")[0][1]).toUpperCase();
+    if (name.split(" ")[0][1]) {
+      return (name.split(" ")[0][0] + name.split(" ")[0][1]).toUpperCase();
+    }
+    return name.split(" ")[0][0].toUpperCase();
   }
   return (name.split(" ")[0][0] + name.split(" ")[1][0]).toUpperCase();
 }

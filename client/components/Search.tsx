@@ -16,7 +16,7 @@ const Search = () => {
       placeholder="Search"
       className={cn(
         isFocused
-          ? "placeholder:text-muted-foreground w-[300px]"
+          ? "placeholder:text-muted-foreground sm:w-[300px] exs:w-full"
           : "!placeholder-white w-[75px]",
         "transition-all"
       )}
