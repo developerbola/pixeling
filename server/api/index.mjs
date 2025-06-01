@@ -10,7 +10,8 @@ import { cors } from "hono/cors";
 const app = new Hono().basePath("/api");
 
 // Middlewares
-app.use("/api/*", cors());
+app.use("/api/*", cors("https://pixeling.vercel.app"));
+app.use("/api/*", cors("http://pixeling.vercel.app"));
 // Use hooks
 useRoutes(app);
 
