@@ -4,7 +4,7 @@ const { uploadController } = require("../controllers/upload.controller.js");
 
 const useRoutes = (app) => {
   app.get("/images", getImages);
-  app.post("/image/:id", singleImageController);
+  app.post("/image/:uuid", singleImageController);
   app.post("/upload", uploadController);
 
   // Home route
