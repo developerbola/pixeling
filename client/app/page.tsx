@@ -20,7 +20,9 @@ export default async function Home() {
   let data: DataType = [];
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`, {
+      cache: "no-cache",
+    });
     data = await res.json();
   } catch (error) {
     console.error("Fetch error:", error);

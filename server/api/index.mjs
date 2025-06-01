@@ -8,6 +8,7 @@ import { cors } from "hono/cors";
 
 // Initialize app and apply middlewares
 const app = new Hono().basePath("/api");
+
 // Middlewares
 app.use("/api/*", cors());
 // Use hooks
