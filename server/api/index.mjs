@@ -10,15 +10,15 @@ import { cors } from "hono/cors";
 const app = new Hono().basePath("/api");
 
 // Middlewares
-app.use(
-  "*",
-  cors({
+app.use('*', async (c, next) => {
+  const corsMiddleware = cors({
     origin: "https://pixeling.vercel.app",
-    allowedHeaders: ["Origin", "Content-Type", "Authorization"],
-    allowMethods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
+    allowedHeaders: ['Origin', 'Content-Type', 'Authorization'],
+    allowMethods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
-);
+  await corsMiddleware(c, next)
+})
 // Use hooks
 useRoutes(app);
 
