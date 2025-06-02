@@ -3,27 +3,44 @@ dotenv.config();
 
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { useRoutes } from "../src/routes/useRoutes.js";
 import { cors } from "hono/cors";
+import {
+  getImages,
+  singleImageController,
+  uploadController,
+} from "../src/controllers/controllers";
 
 // Initialize app and apply middlewares
 const app = new Hono().basePath("/api");
 
 // Middlewares
-app.use('*', async (c, next) => {
-  const corsMiddleware = cors({
+app.use(
+  "*",
+  cors({
     origin: "https://pixeling.vercel.app",
-    allowedHeaders: ['Origin', 'Content-Type', 'Authorization'],
-    allowMethods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
+    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
+    allowMethods: ["POST", "GET", "OPTIONS"],
+    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
   })
-  await corsMiddleware(c, next)
-})
-// Use hooks
-useRoutes(app);
+);
 
+// Use routes
+app.get("/images", getImages);
+app.post("/image/:uuid", singleImageController);
+app.post("/upload", uploadController);
+
+// Home route
 app.get("/", (c) => {
-  c.json({ message: "Pixeling server is working" }, 200);
+  return c.json({ message: "Pixeling backend is working!" });
+});
+
+// Catch-all route
+app.all("*", (c) => {
+  return c.json({
+    message: "Route not found",
+    path: c.req.path,
+    method: c.req.method,
+  });
 });
 
 // Export the Vercel handler and HTTP method handlers
