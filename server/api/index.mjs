@@ -8,7 +8,7 @@ import {
   getImages,
   singleImageController,
   uploadController,
-} from "../src/controllers/controllers";
+} from "../src/controllers/controllers.js";
 
 // Initialize app and apply middlewares
 const app = new Hono().basePath("/api");
