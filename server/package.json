@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "hono": "^4.7.10",
     "jimp": "^1.6.0",

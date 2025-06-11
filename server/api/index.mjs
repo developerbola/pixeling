@@ -3,7 +3,8 @@ dotenv.config();
 
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import { cors } from "hono/cors";
+import { cors as corsHono } from "hono/cors";
+import { cors } from "cors";
 import {
   getImages,
   singleImageController,
@@ -14,15 +15,8 @@ import {
 const app = new Hono().basePath("/api");
 
 // Middlewares
-app.use(
-  "*",
-  cors({
-    origin: "https://pixeling.vercel.app",
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-  })
-);
+app.use("*", corsHono());
+app.use("*", cors());
 
 // Use routes
 app.get("/images", getImages);
@@ -43,12 +37,4 @@ app.all("*", (c) => {
   });
 });
 
-// Export the Vercel handler and HTTP method handlers
-const handler = handle(app);
-
-export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
-export const PUT = handler;
-export const OPTIONS = handler;
-export const DELETE = handler;
+export default handle(app);
