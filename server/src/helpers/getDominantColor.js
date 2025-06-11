@@ -6,7 +6,7 @@
 
 import { Jimp } from "jimp";
 
-export const getDominantColorOfImage = async (imageUrl) => {
+const getDominantColorOfImage = async (imageUrl) => {
   try {
     // Load the image - works with both URLs and local file paths
     const image = await Jimp.read(imageUrl);
@@ -56,3 +56,4 @@ export const getDominantColorOfImage = async (imageUrl) => {
   }
 };
 
+export default getDominantColorOfImage;
