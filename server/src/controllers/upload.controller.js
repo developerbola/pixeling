@@ -1,5 +1,5 @@
 import { supabase } from "../config/supabase.js";
-import getDominantColorOfImage from "../helpers/getDominantColor.js";
+import { getDominantColorOfImage } from "../helpers/getDominantColor.js";
 import imageUploadSchema from "../schema/image.schema.js";
 import { buffer } from "stream/consumers";
 
