@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const imageUploadSchema = z.object({
+export const imageUploadSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional().nullable(),
   imageUrl: z.string().url().optional().nullable(),
@@ -24,4 +24,3 @@ const imageUploadSchema = z.object({
     .nullable(),
 });
 
-export default imageUploadSchema;
