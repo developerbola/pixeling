@@ -4,11 +4,9 @@ dotenv.config();
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { cors } from "hono/cors";
-import {
-  getImages,
-  singleImageController,
-  uploadController,
-} from "../src/controllers/controllers.js";
+import getImages from "../src/controllers/get-images.contoller.js";
+import singleImageController from "../src/controllers/single-image.controller.js";
+import uploadController from "../src/controllers/upload.controller.js";
 
 const app = new Hono().basePath("/api");
 
@@ -39,7 +37,6 @@ app.all("*", (c) =>
     method: c.req.method,
   })
 );
-
 
 // Export the Vercel handler and HTTP method handlers
 const handler = handle(app);

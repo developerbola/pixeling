@@ -3,7 +3,7 @@ import getDominantColorOfImage from "../helpers/getDominantColor.js";
 import imageUploadSchema from "../schema/image.schema.js";
 import { buffer } from "stream/consumers";
 
-export const uploadController = async (c) => {
+const uploadController = async (c) => {
   try {
     const body = await c.req.formData();
 
@@ -121,3 +121,4 @@ export const uploadController = async (c) => {
   }
 };
 
+export default uploadController;
