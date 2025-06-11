@@ -1,4 +1,4 @@
-const { z } = require("zod");
+import { z } from "zod";
 
 const imageUploadSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -24,4 +24,4 @@ const imageUploadSchema = z.object({
     .nullable(),
 });
 
-module.exports = { imageUploadSchema };
+export default imageUploadSchema;

@@ -4,7 +4,7 @@
  * @returns {Promise<{r: number, g: number, b: number}>} - Dominant color as RGB object
  */
 
-const { Jimp } = require("jimp");
+import { Jimp } from "jimp";
 
 const getDominantColorOfImage = async (imageUrl) => {
   try {
@@ -56,4 +56,4 @@ const getDominantColorOfImage = async (imageUrl) => {
   }
 };
 
-module.exports = { getDominantColorOfImage };
+export default getDominantColorOfImage;
