@@ -87,13 +87,30 @@ const Create = () => {
     );
 
     try {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
-        method: "POST",
-        body: formData,
-      }).then((data) => {
-        console.log(data);
-        router.push("/");
-      });
+      toast.promise(
+        async () => {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Upload failed");
+          }
+
+          const data: Object[] = await response.json();
+          router.push("/");
+          return data;
+        },
+        {
+          loading: "Uploading...",
+          success: "Upload successful!",
+          error: "Upload failed.",
+        }
+      );
     } catch (error) {
       toast.error("Failed to publish.");
       console.error("Error on publishing:", error);
