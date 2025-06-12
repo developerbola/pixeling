@@ -41,11 +41,14 @@ const Navbar = () => {
             <DropdownMenuContent>
               <DropdownMenuLabel>Options</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href={"/profile"}>
+              <Link href={"/profile"} className="cursor-pointer">
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
-              <Link href={"/create"}>
+              <Link href={"/create"} className="cursor-pointer">
                 <DropdownMenuItem>Create</DropdownMenuItem>
+              </Link>
+              <Link href={"/mine"} className="cursor-pointer">
+                <DropdownMenuItem>My images</DropdownMenuItem>
               </Link>
             </DropdownMenuContent>
           </DropdownMenu>

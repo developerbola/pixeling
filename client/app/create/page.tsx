@@ -28,6 +28,7 @@ const Create = () => {
     width: number;
     categories: string[];
     isCommentable: boolean;
+    isPublic: boolean;
   }>({
     file: "",
     title: "",
@@ -36,11 +37,13 @@ const Create = () => {
     width: 0,
     categories: [],
     isCommentable: true,
+    isPublic: true,
   });
 
   const [open, setOpen] = useState<boolean>(false);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const saveValue = (
     value: string | boolean | string[] | number,
@@ -89,6 +92,7 @@ const Create = () => {
     try {
       toast.promise(
         async () => {
+          setIsLoading(true);
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`,
             {
@@ -96,6 +100,7 @@ const Create = () => {
               body: formData,
             }
           );
+          setIsLoading(false);
 
           if (!response.ok) {
             throw new Error("Upload failed");
@@ -107,7 +112,7 @@ const Create = () => {
         },
         {
           loading: "Uploading...",
-          success: "Upload successful!",
+          success: "Uploaded successfully!",
           error: "Upload failed.",
         }
       );
@@ -125,8 +130,9 @@ const Create = () => {
           variant={"secondary"}
           onClick={handlePublish}
           className="w-auto"
+          disabled={isLoading}
         >
-          Upload <Upload className="ml-2" />
+          {isLoading ? "Uploading" : "Upload"} <Upload className="ml-2" />
         </Button>
       </div>
 
@@ -276,6 +282,16 @@ const Create = () => {
               id="allow-comment"
               checked={uploadData.isCommentable}
               onCheckedChange={(checked) => saveValue(checked, "isCommentable")}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label className="mb-1" htmlFor="allow-comment">
+              Allow to public
+            </Label>
+            <Switch
+              id="allow-comment"
+              checked={uploadData.isPublic}
+              onCheckedChange={(checked) => saveValue(checked, "isPublic")}
             />
           </div>
         </div>

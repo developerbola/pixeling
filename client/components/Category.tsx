@@ -42,6 +42,7 @@ export function Category({
       width: number;
       categories: string[];
       isCommentable: boolean;
+      isPublic: boolean;
     }>
   >;
 }) {

@@ -5,7 +5,8 @@ import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
 
 const Search = () => {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const handleSubmit = (value: string) => {
     console.log(value);
@@ -21,7 +22,9 @@ const Search = () => {
         "transition-all"
       )}
       onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
+      onBlur={() => (searchValue ? null : setIsFocused(false))}
+      onChange={(e) => setSearchValue(e.target.value)}
+      value={searchValue}
       onKeyDown={(e) =>
         e.code === "Enter" && handleSubmit((e.target as HTMLInputElement).value)
       }
