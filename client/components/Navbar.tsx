@@ -11,6 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Search from "./Search";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import { LoaderCircle } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -27,31 +30,42 @@ const Navbar = () => {
             />
           </Link>
         </div>
-        <div className="flex align-center justify-end w-full px-5">
+        <div
+          className={cn(
+            "flex align-center justify-end w-full px-5",
+            true ? "gap-2" : "gap-4"
+          )}
+        >
           <Search />
-        </div>
-        <div className="flex gap-4 items-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="focus:outline-none focus:border-none">
-              <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
-                <AvatarImage src="https://avatars.githubusercontent.com/u/130325184?v=4" />
-                <AvatarFallback>DB</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Options</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <Link href={"/profile"} className="cursor-pointer">
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-              </Link>
-              <Link href={"/create"} className="cursor-pointer">
-                <DropdownMenuItem>Create</DropdownMenuItem>
-              </Link>
-              <Link href={"/mine"} className="cursor-pointer">
-                <DropdownMenuItem>My images</DropdownMenuItem>
-              </Link>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center">
+            {true ? (
+              <Button variant={"link"}>Login</Button>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="focus:outline-none focus:border-none">
+                  <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
+                    <AvatarImage src="https://avatars.githubusercontent.com/u/130325184?v=4" />
+                    <AvatarFallback>
+                      <LoaderCircle className="animate-spin" />
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Options</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href={"/profile"} className="cursor-pointer">
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                  </Link>
+                  <Link href={"/create"} className="cursor-pointer">
+                    <DropdownMenuItem>Create</DropdownMenuItem>
+                  </Link>
+                  <Link href={"/mine"} className="cursor-pointer">
+                    <DropdownMenuItem>My images</DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </div>
       </div>
     </nav>
