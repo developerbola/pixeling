@@ -7,6 +7,7 @@ import { cors } from "hono/cors";
 import getImages from "../src/controllers/get-images.contoller.js";
 import singleImageController from "../src/controllers/single-image.controller.js";
 import uploadController from "../src/controllers/upload.controller.js";
+import authController from "../src/controllers/auth.controller.js";
 
 const app = new Hono().basePath("/api");
 
@@ -14,7 +15,7 @@ const app = new Hono().basePath("/api");
 app.use(
   "*",
   cors({
-    origin: ["https://pixeling.vercel.app","http://localhost:3001"],
+    origin: ["https://pixeling.vercel.app", "http://localhost:3001"],
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
@@ -25,6 +26,7 @@ app.use(
 app.get("/images", getImages);
 app.post("/image/:uuid", singleImageController);
 app.post("/upload", uploadController);
+app.post("/protected", authController);
 
 // Home route
 app.get("/", (c) => c.json({ message: "Pixeling backend is working!" }));
