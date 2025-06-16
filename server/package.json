@@ -5,9 +5,9 @@
     "serve": "bun run api/index.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.4",
+    "@supabase/supabase-js": "^2.50.0",
     "dotenv": "^16.5.0",
-    "hono": "^4.7.10",
+    "hono": "^4.7.11",
     "jimp": "^1.6.0",
     "node-fetch": "^3.3.2",
     "vercel": "^42.3.0",
