@@ -25,6 +25,7 @@ app.use(
     ],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
+    credentials: "include"
   })
 );
 
