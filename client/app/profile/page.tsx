@@ -4,20 +4,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { userAtom } from "@/lib/atom";
 import { getCapitalLetters } from "@/lib/utils";
+import { useAtomValue } from "jotai";
 import Image from "next/image";
 import React, { ChangeEvent, useState } from "react";
+
 interface UserInfo {
   name: string;
   username: string;
+  avatar_url: string;
   bio: string;
 }
+
 const Profile = () => {
-  const [user, setUser] = useState<UserInfo>({
-    name: "Tuxtamatov",
-    username: "mutawirr",
-    bio: "Creative thinker, passionate about storytelling, technology, and making meaningful connections through words and ideas.",
-  });
+  const session = useAtomValue(userAtom);
+
+const [user, setUser] = useState<UserInfo>({
+  name: session?.user_metadata?.full_name || "",
+  username: session?.user_metadata?.name || "",
+  avatar_url: session?.user_metadata?.avatar_url || "",
+  bio: "Creative thinker, passionate about storytelling, technology, and making meaningful connections through words and ideas.",
+});
+
+  console.log(session);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,21 +42,21 @@ const Profile = () => {
   return (
     <div className="w-full min-h-[calc(100vh-80px)] flex items-center justify-center p-4">
       <div className="flex flex-col gap-6 w-full max-w-5xl items-start exs:pl-0 sm:px-28 md:pl-40">
-        {/* Profile Image */}
         <div className="h-[200px] w-[200px] border shadow-xs rounded-xl overflow-hidden grid place-items-center">
-          {false ? (
+          {user?.avatar_url ? (
             <Image
-              src={"https://avatars.githubusercontent.com/u/130325184?v=4"}
+              src={user.avatar_url}
               alt="profile image"
               height={200}
               width={200}
             />
           ) : (
-            <h1 className="text-6xl">{getCapitalLetters(user.name.trim())}</h1>
+            <h1 className="text-6xl">
+              {getCapitalLetters(user?.name?.trim())}
+            </h1>
           )}
         </div>
 
-        {/* Form Section */}
         <div className="flex flex-col gap-4 w-full max-w-[500px]">
           <div className="flex flex-col gap-2">
             <Label htmlFor="name">Name</Label>

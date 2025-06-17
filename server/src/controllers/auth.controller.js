@@ -1,3 +1,5 @@
+import { supabase } from "../config/supabase";
+
 const authController = async (c) => {
   const authHeader = c.req.header("authorization");
   if (!authHeader) {
