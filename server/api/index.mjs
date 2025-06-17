@@ -9,7 +9,7 @@ import singleImageController from "../src/controllers/single-image.controller.js
 import uploadController from "../src/controllers/upload.controller.js";
 import authController from "../src/controllers/auth.controller.js";
 
-const app = new Hono().basePath("/");
+const app = new Hono().basePath("/api");
 
 // Middleware: apply CORS
 app.use(
