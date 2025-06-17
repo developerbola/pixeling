@@ -9,7 +9,7 @@ import singleImageController from "../src/controllers/single-image.controller.js
 import uploadController from "../src/controllers/upload.controller.js";
 import authController from "../src/controllers/auth.controller.js";
 
-const app = new Hono().basePath("/api");
+const app = new Hono()
 
 // Middleware: apply CORS
 app.use(
@@ -20,11 +20,18 @@ app.use(
       "http://localhost:3001",
       "https://pixeling.vercel.app",
     ],
-    allowedHeaders: "*",
-    allowMethods: "*",
+    allowHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
+
 
 // Routes
 app.get("/images", getImages);
