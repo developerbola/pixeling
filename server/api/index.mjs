@@ -16,7 +16,11 @@ app.use(
   "*",
   cors({
     origin: ["https://pixeling.vercel.app", "http://localhost:3001"],
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
+    allowHeaders: [
+      "X-Custom-Header",
+      "Upgrade-Insecure-Requests",
+      "Authorization",
+    ],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
   })

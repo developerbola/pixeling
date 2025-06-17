@@ -2,23 +2,18 @@
 
 import "./styles/index.css";
 import Navbar from "@/components/Navbar";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
 import { useAtom } from "jotai";
 import { userAtom } from "@/lib/atom";
-import { useGetSession } from "@/lib/hooks/useGetSession";
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const [user, setUser] = useAtom(userAtom);
-  const getSession = useGetSession();
 
-  useEffect(() => {
-    getSession();
-  }, []);
 
   return (
     <html lang="en">

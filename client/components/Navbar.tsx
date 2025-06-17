@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import {
@@ -17,9 +18,16 @@ import { LoaderCircle } from "lucide-react";
 import { handleLogin } from "@/lib/handlers";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
+import { useGetSession } from "@/lib/hooks/useGetSession";
 
 const Navbar = () => {
   const user = useAtomValue(userAtom);
+
+  const getSession = useGetSession();
+
+  useEffect(() => {
+    getSession();
+  }, []);
   return (
     <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#000000c8] backdrop-blur-md z-[99]">
       <div className="flex w-full justify-between">
