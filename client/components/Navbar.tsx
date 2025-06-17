@@ -15,7 +15,7 @@ import Search from "./Search";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
-import { handleLogin } from "@/lib/handlers";
+import { handleLogin, handleLogOut } from "@/lib/handlers";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
 import { useGetSession } from "@/lib/hooks/useGetSession";
@@ -76,6 +76,10 @@ const Navbar = () => {
                   <Link href={"/mine"} className="cursor-pointer">
                     <DropdownMenuItem>My images</DropdownMenuItem>
                   </Link>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogOut} data-destructive className="text-red-500 focus:!bg-none focus:text-red-500">
+                    Log out
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             )}

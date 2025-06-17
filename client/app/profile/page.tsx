@@ -8,7 +8,7 @@ import { userAtom } from "@/lib/atom";
 import { getCapitalLetters } from "@/lib/utils";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 
 interface UserInfo {
   name: string;
@@ -20,14 +20,24 @@ interface UserInfo {
 const Profile = () => {
   const session = useAtomValue(userAtom);
 
-const [user, setUser] = useState<UserInfo>({
-  name: session?.user_metadata?.full_name || "",
-  username: session?.user_metadata?.name || "",
-  avatar_url: session?.user_metadata?.avatar_url || "",
-  bio: "Creative thinker, passionate about storytelling, technology, and making meaningful connections through words and ideas.",
-});
+  const [user, setUser] = useState<UserInfo>({
+    name: "",
+    username: "",
+    avatar_url: "",
+    bio: "Creative thinker, passionate about storytelling, technology, and making meaningful connections through words and ideas.",
+  });
 
-  console.log(session);
+  useEffect(() => {
+    if (session) {
+      setUser(prevUser => ({
+        ...prevUser,
+        name: session.user_metadata.full_name || "",
+        username: session.user_metadata.name || "",
+        avatar_url: session.user_metadata?.avatar_url || session.user_metadata.avatar_url || "",
+        bio: session.user_metadata?.bio || prevUser.bio,
+      }));
+    }
+  }, [session]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -27,7 +27,6 @@ export const useGetSession = () => {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${session.access_token}`,
             },
-            // Add credentials if needed
             credentials: "include",
           }
         );
