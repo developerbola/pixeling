@@ -12,7 +12,7 @@ const authController = async (c) => {
   if (error || !getUser) {
     return c.json({ error: "Invalid token" }, 401);
   }
-  const user = data.user;
+  const user = getUser.user;
 
   const { data: existingUser, error: fetchError } = await supabase
     .from("users")
