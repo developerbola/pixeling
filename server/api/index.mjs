@@ -15,20 +15,14 @@ const app = new Hono().basePath("/api");
 app.use(
   "*",
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://pixeling.vercel.app",
-    ],
+    origin: ["https://pixeling.vercel.app", "http://localhost:3001"],
     allowHeaders: [
-      "Content-Type",
+      "X-Custom-Header",
+      "Upgrade-Insecure-Requests",
       "Authorization",
-      "X-Requested-With",
-      "Accept",
-      "Origin",
     ],
-    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
+    allowMethods: ["POST", "GET", "OPTIONS"],
+    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
   })
 );
 
