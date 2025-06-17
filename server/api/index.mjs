@@ -20,14 +20,8 @@ app.use(
       "http://localhost:3001",
       "https://pixeling.vercel.app",
     ],
-    allowHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-      "Origin",
-    ],
-    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowedHeaders: "*",
+    allowMethods: "*",
     credentials: true,
   })
 );
