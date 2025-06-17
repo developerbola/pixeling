@@ -39,6 +39,7 @@ export const useGetSession = () => {
         console.log(json);
       }
     } catch (error) {
+      console.log(error)
       toast.error(`Error in handleGetSession: ${error}`);
     }
   };

@@ -2,7 +2,9 @@ import { supabase } from "../config/supabase.js";
 
 const authController = async (c) => {
   const authHeader = c.req.header("Authorization");
+
   if (!authHeader) {
+    console.log(`token - "${authHeader}" is not valid`);
     return c.json({ error: "Unauthorized" }, 401);
   }
 
@@ -10,6 +12,7 @@ const authController = async (c) => {
   const { data: getUser, error } = await supabase.auth.getUser(token);
 
   if (error || !getUser.user) {
+    console.log("Invalid token");
     return c.json({ error: "Invalid token" }, 401);
   }
   const user = getUser.user;
@@ -21,6 +24,7 @@ const authController = async (c) => {
     .single();
 
   if (fetchError && fetchError.code !== "PGRST116") {
+    console.log(`Failed to check user existance: ${fetchError}`);
     return c.json({ error: "Failed to check user existance" }, 401);
   }
 
@@ -34,6 +38,7 @@ const authController = async (c) => {
       },
     ]);
     if (insertError) {
+      console.log(`Failed to insert user: ${insertError}`);
       return c.json({ error: "Failed to insert user" });
     }
   }
