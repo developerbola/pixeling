@@ -112,7 +112,7 @@ const Create = () => {
             throw new Error("Upload failed");
           }
 
-          const data: Object[] = await response.json();
+          const data: object[] = await response.json();
           router.push("/");
           return data;
         },

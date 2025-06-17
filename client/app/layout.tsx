@@ -5,15 +5,11 @@ import Navbar from "@/components/Navbar";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
-import { useAtom } from "jotai";
-import { userAtom } from "@/lib/atom";
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [user, setUser] = useAtom(userAtom);
-
 
   return (
     <html lang="en">
