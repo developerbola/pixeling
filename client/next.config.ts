@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: process.env.SUPABASE_URL as string,
+        hostname: process.env.SUPABASE_URI as string,
       },
     ],
   },
