@@ -22,6 +22,7 @@ const imageUploadSchema = z.object({
     .optional()
     .transform((val) => (val ? parseInt(val, 10) : null))
     .nullable(),
+  author_uuid: z.string().optional().nullable(),
 });
 
 export default imageUploadSchema;

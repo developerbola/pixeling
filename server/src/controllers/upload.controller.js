@@ -16,7 +16,9 @@ const uploadController = async (c) => {
       width: body.get("width"),
       isCommentable: body.get("isCommentable"),
       categories: body.get("categories"),
+      author_uuid: body.get("author_uuid"),
     };
+    console.log("author_uuid in 21: ", author_uuid);
 
     const parseResult = imageUploadSchema.safeParse(rawData);
 
@@ -38,7 +40,9 @@ const uploadController = async (c) => {
       width,
       isCommentable,
       categories,
+      author_uuid,
     } = parseResult.data;
+    console.log("author_id in 45: ", author_uuid);
 
     let publicUrl = "";
     let dominantColor = "";
@@ -103,8 +107,10 @@ const uploadController = async (c) => {
         dominantColor,
         isCommentable: isCommentable === "true",
         categories,
+        author_uuid,
       },
     ]);
+    console.log("author_uuid in 113: ", author_uuid);
 
     if (insertError) {
       console.error("Insert error:", insertError.message);

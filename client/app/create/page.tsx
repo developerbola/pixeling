@@ -12,11 +12,13 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/lib/atom";
 
 const Create = () => {
   const router = useRouter();
@@ -44,6 +46,8 @@ const Create = () => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const user = useAtomValue(userAtom);
+  useEffect(() => console.log(user), [user]);
 
   const saveValue = (
     value: string | boolean | string[] | number,
@@ -88,6 +92,8 @@ const Create = () => {
       "isCommentable",
       uploadData.isCommentable ? "true" : "false"
     );
+    console.log("Publishing with user id:", user?.id);
+    formData.append("author_uuid", user?.id ? user.id : "sOmEuIdHeRe");
 
     try {
       toast.promise(
