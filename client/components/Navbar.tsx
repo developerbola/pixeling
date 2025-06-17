@@ -14,8 +14,12 @@ import Search from "./Search";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
+import { handleLogin } from "@/lib/handlers";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/lib/atom";
 
 const Navbar = () => {
+  const user = useAtomValue(userAtom);
   return (
     <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#000000c8] backdrop-blur-md z-[99]">
       <div className="flex w-full justify-between">
@@ -38,13 +42,15 @@ const Navbar = () => {
         >
           <Search />
           <div className="flex items-center">
-            {true ? (
-              <Button variant={"link"}>Login</Button>
+            {!user?.user_metadata.avatar_url ? (
+              <Button variant={"link"} onClick={handleLogin}>
+                Login
+              </Button>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none focus:border-none">
                   <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
-                    <AvatarImage src="https://avatars.githubusercontent.com/u/130325184?v=4" />
+                    <AvatarImage src={user?.user_metadata?.avatar_url} />
                     <AvatarFallback>
                       <LoaderCircle className="animate-spin" />
                     </AvatarFallback>

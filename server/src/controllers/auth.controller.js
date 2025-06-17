@@ -4,7 +4,7 @@ const authController = async (c) => {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
-  const token = authHeader.replace("Bearear ", "");
+  const token = authHeader.replace("Bearer ", "");
   const { data: user, error } = await supabase.auth.getUser(token);
 
   if (error || !user) {
