@@ -24,7 +24,7 @@ const authController = async (c) => {
     .single();
 
   if (fetchError && fetchError.code !== "PGRST116") {
-    console.log(`Failed to check user existance: ${fetchError}`);
+    console.log(`Failed to check user existance: ${fetchError.message}`);
     return c.json({ error: "Failed to check user existance" }, 401);
   }
 
@@ -38,7 +38,7 @@ const authController = async (c) => {
       },
     ]);
     if (insertError) {
-      console.log(`Failed to insert user: ${insertError}`);
+      console.log(`Failed to insert user: ${insertError.message}`);
       return c.json({ error: "Failed to insert user" });
     }
   }
