@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabase";
+import { supabase } from "../config/supabase.js";
 
 const authController = async (c) => {
   const authHeader = c.req.header("Authorization");
