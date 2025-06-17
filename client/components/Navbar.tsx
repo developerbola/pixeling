@@ -15,15 +15,16 @@ import Search from "./Search";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
-import { handleLogin, handleLogOut } from "@/lib/handlers";
+import { handleLogin } from "@/lib/handlers";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
 import { useGetSession } from "@/lib/hooks/useGetSession";
+import { useLogOut } from "@/lib/hooks/userLogOut";
 
 const Navbar = () => {
   const user = useAtomValue(userAtom);
-
   const getSession = useGetSession();
+  const logOut = useLogOut();
 
   useEffect(() => {
     getSession();
@@ -73,11 +74,15 @@ const Navbar = () => {
                   <Link href={"/create"} className="cursor-pointer">
                     <DropdownMenuItem>Create</DropdownMenuItem>
                   </Link>
-                  <Link href={"/mine"} className="cursor-pointer">
+                  <Link href={"/my-images"} className="cursor-pointer">
                     <DropdownMenuItem>My images</DropdownMenuItem>
                   </Link>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogOut} data-destructive className="text-red-500 focus:!bg-none focus:text-red-500">
+                  <DropdownMenuItem
+                    onClick={logOut}
+                    data-destructive
+                    className="text-red-500 focus:!bg-none focus:text-red-500"
+                  >
                     Log out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
