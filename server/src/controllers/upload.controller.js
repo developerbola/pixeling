@@ -18,7 +18,7 @@ const uploadController = async (c) => {
       categories: body.get("categories"),
       author_uuid: body.get("author_uuid"),
     };
-    console.log("author_uuid in 21: ", author_uuid);
+    console.log("author_uuid in 21: ", rawData.author_uuid);
 
     const parseResult = imageUploadSchema.safeParse(rawData);
 
