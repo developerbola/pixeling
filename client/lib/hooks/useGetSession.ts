@@ -20,7 +20,7 @@ export const useGetSession = () => {
         setUser(session.user);
         
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/protected`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/protected`,
           {
             method: "POST",
             headers: {

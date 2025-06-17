@@ -18,9 +18,9 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://piexeling.verce.app",
+      "https://pixeling.vercel.app",
     ],
-    allowedHeaders: [
+    allowHeaders: [
       "Content-Type",
       "Authorization",
       "X-Requested-With",
