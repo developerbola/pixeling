@@ -12,19 +12,7 @@ import authController from "../src/controllers/auth.controller.js";
 const app = new Hono().basePath("/api");
 
 // Middleware: apply CORS
-app.use(
-  "*",
-  cors({
-    origin: ["https://pixeling.vercel.app", "http://localhost:3001"],
-    allowHeaders: [
-      "X-Custom-Header",
-      "Upgrade-Insecure-Requests",
-      "Authorization",
-    ],
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-  })
-);
+app.use("*", cors());
 
 // Routes
 app.get("/images", getImages);
