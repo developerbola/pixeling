@@ -12,7 +12,25 @@ import authController from "../src/controllers/auth.controller.js";
 const app = new Hono().basePath("/api");
 
 // Middleware: apply CORS
-app.use("*", cors());
+app.use(
+  "*",
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://piexeling.verce.app",
+    ],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    credentials: true,
+  })
+);
 
 // Routes
 app.get("/images", getImages);
