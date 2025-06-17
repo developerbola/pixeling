@@ -1,7 +1,7 @@
 import { supabase } from "../config/supabase";
 
 const authController = async (c) => {
-  const authHeader = c.req.header("authorization");
+  const authHeader = c.req.header("Authorization");
   if (!authHeader) {
     return c.json({ error: "Unauthorized" }, 401);
   }
