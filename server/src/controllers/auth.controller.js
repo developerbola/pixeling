@@ -7,9 +7,9 @@ const authController = async (c) => {
   }
 
   const token = authHeader.replace("Bearer ", "");
-  const { data, error } = await supabase.auth.getUser(token);
+  const { data: getUser, error } = await supabase.auth.getUser(token);
 
-  if (error || !user) {
+  if (error || !getUser) {
     return c.json({ error: "Invalid token" }, 401);
   }
   const user = data.user;
