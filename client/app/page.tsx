@@ -1,4 +1,5 @@
 import ImageItem from "@/components/ImageItem";
+import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 
 export interface ImageType {
@@ -19,12 +20,14 @@ type DataType = { code: number; message: string } | ImageType[];
 
 export default async function Home() {
   let data: DataType = [];
+  let isLoading = true;
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`, {
       cache: "no-cache",
     });
     data = await res.json();
+    isLoading = false;
   } catch (error) {
     console.error("Fetch error:", error);
     return (
@@ -57,17 +60,24 @@ export default async function Home() {
     );
   }
 
-  // Normal render if data is good
   return (
-    <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-      {data.map((image: ImageType) => (
-        <Link href={`/image/${image.id}`} key={image.id}>
-          <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
-            <ImageItem image={image} />
-            <h2>{image.title}</h2>
-          </div>
-        </Link>
-      ))}
-    </div>
+    <>
+      {isLoading ? (
+        <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
+          <LoaderCircle className="animate-spin" size={32} />
+        </div>
+      ) : (
+        <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
+          {data.map((image: ImageType) => (
+            <Link href={`/image/${image.id}`} key={image.id}>
+              <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
+                <ImageItem image={image} />
+                <h2>{image.title}</h2>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
