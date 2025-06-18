@@ -8,8 +8,8 @@ export const useRoutes = (app) => {
   // get
   app.get("/images", getImages);
   app.get("/:user_uuid/images", getUserImages);
+  app.get("/image/:uuid", singleImageController);
   // post
-  app.post("/image/:uuid", singleImageController);
   app.post("/upload", uploadController);
   app.post("/protected", authController);
 

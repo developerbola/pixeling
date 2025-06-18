@@ -26,7 +26,7 @@ const Navbar = () => {
   const logOut = useLogOut();
 
   return (
-    <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#000000c8] backdrop-blur-md z-[99]">
+    <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#0b0809c8] backdrop-blur-md z-[99]">
       <div className="flex w-full justify-between">
         <div>
           <Link href="/">

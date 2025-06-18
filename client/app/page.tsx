@@ -12,6 +12,7 @@ export interface ImageType {
   width: string;
   isCommentable: boolean;
   categories: string[];
+  author_uuid: string;
 }
 
 type DataType = { code: number; message: string } | ImageType[];

@@ -5,6 +5,7 @@ import ImageItem from "@/components/ImageItem";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
 import { useEffect, useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 const MyImages = () => {
   const [images, setImages] = useState<ImageType[]>([]);
@@ -48,19 +49,8 @@ const MyImages = () => {
         setLoading(false);
       }
     };
-    console.log("images", images);
-
     fetchImages();
   }, [user?.id]);
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="grid place-items-center h-[calc(90vh-80px)]">
-        <h1 className="text-2xl">Loading images...</h1>
-      </div>
-    );
-  }
 
   // Error state
   if (error) {
@@ -73,18 +63,27 @@ const MyImages = () => {
 
   // Empty state or images
   return (
-    <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-      {!Array.isArray(images) || images.length === 0 ? (
-        <div className="w-full text-center">No images yet</div>
+    <div className="flex flex-col gap-4">
+      <h1 className="text-3xl">My images</h1>
+      {loading ? (
+        <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
+          <LoaderCircle className="animate-spin" size={32} />
+        </div>
       ) : (
-        images.map((image: ImageType) => (
-          <Link href={`/image/${image.id}`} key={image.id}>
-            <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
-              <ImageItem image={image} />
-              <h2>{image.title}</h2>
-            </div>
-          </Link>
-        ))
+        <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
+          {!Array.isArray(images) || images.length === 0 ? (
+            <div className="w-full text-center">No images yet</div>
+          ) : (
+            images.map((image: ImageType) => (
+              <Link href={`/image/${image.id}`} key={image.id}>
+                <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
+                  <ImageItem image={image} />
+                  <h2>{image.title}</h2>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
       )}
     </div>
   );
