@@ -12,7 +12,7 @@ export const useCors = (app) => {
         "Authorization",
         "Origin",
       ],
-      allowMethods: ["POST", "GET", "OPTIONS"],
+      allowMethods: ["POST", "GET", "DELETE˝", "OPTIONS"],
       exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
       credentials: "include",
     })
