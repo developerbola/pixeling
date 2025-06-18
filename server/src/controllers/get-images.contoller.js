@@ -2,7 +2,10 @@ import { supabase } from "../config/supabase.js";
 
 const getImages = async (c) => {
   try {
-    const { data, error } = await supabase.from("image-list").select("*");
+    const { data, error } = await supabase
+      .from("image-list")
+      .select("*")
+      .eq("isPublic", true);
 
     if (error) {
       return c.json({ message: error.message }, 500);

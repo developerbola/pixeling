@@ -92,7 +92,7 @@ const Create = () => {
       "isCommentable",
       uploadData.isCommentable ? "true" : "false"
     );
-    console.log("Publishing with user id:", user?.id);
+    formData.append("isPublic", uploadData.isPublic ? "true" : "false");
     formData.append("author_uuid", user?.id ? user.id : "sOmEuIdHeRe");
 
     try {
@@ -251,7 +251,7 @@ const Create = () => {
         {/* Form Section */}
         <div className="flex flex-col gap-5 w-full max-w-[500px]">
           <div>
-            <Label className="mb-1" htmlFor="title">
+            <Label className="mb-2" htmlFor="title">
               Title
             </Label>
             <Input
@@ -263,7 +263,7 @@ const Create = () => {
           </div>
 
           <div>
-            <Label className="mb-1" htmlFor="textarea">
+            <Label className="mb-2" htmlFor="textarea">
               Description
             </Label>
             <Textarea
@@ -276,7 +276,7 @@ const Create = () => {
           </div>
 
           <div>
-            <Label className="mb-1">Categories</Label>
+            <Label className="mb-2">Categories</Label>
             <Category setUploadData={setUploadData} />
           </div>
 
@@ -286,7 +286,8 @@ const Create = () => {
             </Label>
             <Switch
               id="allow-comment"
-              checked={uploadData.isCommentable}
+              disabled={!uploadData.isPublic}
+              checked={!uploadData.isPublic ? false : uploadData.isCommentable}
               onCheckedChange={(checked) => saveValue(checked, "isCommentable")}
             />
           </div>

@@ -15,6 +15,7 @@ const uploadController = async (c) => {
       height: body.get("height"),
       width: body.get("width"),
       isCommentable: body.get("isCommentable"),
+      isPublic: body.get("isPublic"),
       categories: body.get("categories"),
       author_uuid: body.get("author_uuid"),
     };
@@ -38,6 +39,7 @@ const uploadController = async (c) => {
       height,
       width,
       isCommentable,
+      isPublic,
       categories,
       author_uuid,
     } = parseResult.data;
@@ -104,6 +106,7 @@ const uploadController = async (c) => {
         width,
         dominantColor,
         isCommentable: isCommentable === "true",
+        isPublic: isPublic === "true",
         categories,
         author_uuid,
       },
