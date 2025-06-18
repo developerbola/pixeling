@@ -2,33 +2,29 @@ import { supabase } from "../config/supabase.js";
 
 const getUserImages = async (c) => {
   try {
-    const { user_uuid } = c.req.params();
+    const { user_uuid } = c.req.param();
+
     if (!user_uuid) {
-      c.json({ error: "User id not found" }, 404);
+      return c.json({ error: "User id not found" }, 404);
     }
 
-    const { data, error } = supabase
+    // Get images by specific user
+    const { data, error } = await supabase
       .from("image-list")
-      .select()
+      .select("*")
       .eq("author_uuid", user_uuid);
 
-    const { data: _data, error: _error } = supabase
-      .from("image-list")
-      .select("author_uuid");
-
     if (error) {
-      c.json({
-        error:
-          error ||
-          error.message ||
-          error.error ||
-          `Error occured in getting .eq("author_uuid", user_uuid)`,
-      });
+      return c.json({
+        error: error.message || "Failed to fetch user images",
+      }, 500);
     }
-    
-    return c.json(_data);
+
+    return c.json(data); // only the user's images
   } catch (error) {
-    return c.json({ error: error || error.message || error.error });
+    return c.json({
+      error: error?.message || "Unexpected error occurred",
+    }, 500);
   }
 };
 
