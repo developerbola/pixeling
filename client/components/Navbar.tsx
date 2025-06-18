@@ -22,13 +22,10 @@ import { useGetSession } from "@/lib/hooks/useGetSession";
 import { useLogOut } from "@/lib/hooks/userLogOut";
 
 const Navbar = () => {
+  useGetSession();
   const user = useAtomValue(userAtom);
-  const getSession = useGetSession();
   const logOut = useLogOut();
 
-  useEffect(() => {
-    getSession();
-  }, [getSession]);
   return (
     <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#000000c8] backdrop-blur-md z-[99]">
       <div className="flex w-full justify-between">
