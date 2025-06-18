@@ -12,6 +12,12 @@ const getUserImages = async (c) => {
       .select()
       .eq("author_uuid", user_uuid);
 
+    const { data: _data, error: _error } = supabase
+      .from("image-list")
+      .select("*");
+
+    console.log(user_uuid);
+
     if (error) {
       c.json({ error: error || error.message || error.error });
     }
