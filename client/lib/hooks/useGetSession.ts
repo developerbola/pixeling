@@ -35,7 +35,7 @@ export const useGetSession = () => {
         );
 
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          console.log(res)
         }
       }
     } catch (error) {
