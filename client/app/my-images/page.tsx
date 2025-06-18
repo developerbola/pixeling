@@ -48,6 +48,7 @@ const MyImages = () => {
         setLoading(false);
       }
     };
+    console.log("images", images);
 
     fetchImages();
   }, [user?.id]);
@@ -73,7 +74,7 @@ const MyImages = () => {
   // Empty state or images
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-      {images.length === 0 ? (
+      {!Array.isArray(images) || images.length === 0 ? (
         <div className="w-full text-center">No images yet</div>
       ) : (
         images.map((image: ImageType) => (
