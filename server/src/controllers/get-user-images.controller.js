@@ -6,7 +6,7 @@ const getUserImages = async (c) => {
     if (!user_uuid) {
       c.json({ error: "User id not found" }, 404);
     }
-    
+
     const { data, error } = supabase
       .from("image-list")
       .select()
@@ -16,9 +16,9 @@ const getUserImages = async (c) => {
       c.json({ error: error || error.message || error.error });
     }
 
-    c.json(data);
+    return c.json(data);
   } catch (error) {
-    c.json({ error: error || error.message || error.error });
+    return c.json({ error: error || error.message || error.error });
   }
 };
 
