@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import {
