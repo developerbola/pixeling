@@ -3,6 +3,7 @@ import { supabase } from "../config/supabase.js";
 const singleImageController = async (c) => {
   try {
     const { uuid } = c.req.params();
+
     const { data, error } = await supabase
       .from("image-list")
       .select("*")
@@ -10,12 +11,12 @@ const singleImageController = async (c) => {
       .single();
 
     if (error) {
-      c.json({ error: error }, 400);
+      return c.json({ error: error.message }, 400);
     }
 
     return c.json(data);
   } catch (error) {
-    return c.json({ error: error || error.message }, 500);
+    return c.json({ error: error.message || "Unexpected error" }, 500);
   }
 };
 
