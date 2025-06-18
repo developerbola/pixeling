@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import { ImageType } from "../page";
 import ImageItem from "@/components/ImageItem";
