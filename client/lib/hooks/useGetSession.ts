@@ -15,17 +15,20 @@ export const useGetSession = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      
+      console.log(session);
+
       if (session) {
+        console.log(session);
+
         setUser(session.user);
-        
+
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/protected`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${session.access_token}`,
+              Authorization: `Bearer ${session.access_token}`,
             },
             credentials: "include",
           }
@@ -34,12 +37,9 @@ export const useGetSession = () => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-
-        const json = await res.json();
-        console.log(json);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(`Error in handleGetSession: ${error}`);
     }
   };

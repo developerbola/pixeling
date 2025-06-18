@@ -28,7 +28,7 @@ const Navbar = () => {
 
   useEffect(() => {
     getSession();
-  }, []);
+  }, [getSession]);
   return (
     <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#000000c8] backdrop-blur-md z-[99]">
       <div className="flex w-full justify-between">
@@ -45,7 +45,7 @@ const Navbar = () => {
         </div>
         <div
           className={cn(
-            "flex align-center justify-end w-full px-5",
+            "flex align-center justify-end w-full",
             true ? "gap-2" : "gap-4"
           )}
         >
