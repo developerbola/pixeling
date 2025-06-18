@@ -2,7 +2,7 @@ import { supabase } from "../config/supabase.js";
 
 const singleImageController = async (c) => {
   try {
-    const { uuid } = c.req.params();
+    const { uuid } = c.req.param();
 
     const { data, error } = await supabase
       .from("image-list")
