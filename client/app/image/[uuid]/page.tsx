@@ -32,14 +32,18 @@ const Image = () => {
     };
     fetchImage();
   }, []);
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
 
   return (
     <div>
       <h1>Image: {uuid}</h1>
-      <h1>isOwner: {image?.author_uuid === user?.id}</h1>
+      <h1>
+        isOwner:{" "}
+        {image && user
+          ? image.author_uuid === user.id
+            ? "Yes"
+            : "No"
+          : "Checking..."}
+      </h1>
     </div>
   );
 };
