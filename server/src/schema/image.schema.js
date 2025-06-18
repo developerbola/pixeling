@@ -5,6 +5,7 @@ const imageUploadSchema = z.object({
   description: z.string().optional().nullable(),
   imageUrl: z.string().url().optional().nullable(),
   isCommentable: z.enum(["true", "false"]),
+  isPublic: z.enum(["true", "false"]),
   categories: z
     .string()
     .optional()
