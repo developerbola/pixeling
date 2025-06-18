@@ -14,15 +14,19 @@ const getUserImages = async (c) => {
 
     const { data: _data, error: _error } = supabase
       .from("image-list")
-      .select("*");
-
-    console.log(user_uuid);
+      .select("author_uuid");
 
     if (error) {
-      c.json({ error: error || error.message || error.error });
+      c.json({
+        error:
+          error ||
+          error.message ||
+          error.error ||
+          `Error occured in getting .eq("author_uuid", user_uuid)`,
+      });
     }
-
-    return c.json(data);
+    
+    return c.json(_data);
   } catch (error) {
     return c.json({ error: error || error.message || error.error });
   }
