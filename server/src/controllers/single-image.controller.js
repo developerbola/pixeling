@@ -1,6 +1,6 @@
 import { supabase } from "../config/supabase.js";
 
-const singleImageController = async (c) => {
+const singleImage = async (c) => {
   try {
     const { uuid } = c.req.param();
 
@@ -20,4 +20,4 @@ const singleImageController = async (c) => {
   }
 };
 
-export default singleImageController;
+export default singleImage;

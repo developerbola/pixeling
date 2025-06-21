@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-const authController = async (c) => {
+const auth = async (c) => {
   const authHeader = c.req.header("Authorization");
 
   if (!authHeader) {
@@ -51,4 +51,4 @@ const authController = async (c) => {
   return c.json({ message: `Hello ${user.email}` });
 };
 
-export default authController;
+export default auth;
