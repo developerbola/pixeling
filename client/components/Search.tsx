@@ -3,38 +3,12 @@
 import { useState } from "react";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
-import { useSetAtom } from "jotai";
-import { imagesAtom } from "@/lib/atom";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
-  const setImages = useSetAtom(imagesAtom);
-
-  const handleSubmit = async (value: string) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          searchPrompt: value,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Search request failed");
-      }
-      const data = await res.json();
-      setImages(data);
-    } catch (error: any) {
-      toast.error(error?.message || "Something went wrong");
-      console.log(error);
-    }
-  };
-
+  const router = useRouter();
   return (
     <Input
       placeholder="Search"
@@ -49,7 +23,13 @@ const Search = () => {
       onChange={(e) => setSearchValue(e.target.value)}
       value={searchValue}
       onKeyDown={(e) =>
-        e.code === "Enter" && handleSubmit((e.target as HTMLInputElement).value)
+        e.code === "Enter" &&
+        router.replace(
+          `/search/${(e.target as HTMLInputElement).value
+            .split(" ")
+            .join("-")
+            .toLowerCase()}`
+        )
       }
     />
   );
