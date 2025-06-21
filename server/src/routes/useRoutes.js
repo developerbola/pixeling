@@ -10,8 +10,8 @@ export const useRoutes = (app) => {
   app.get("/images", getImages);
   app.get("/:user_uuid/images", getUserImages);
   app.get("/image/:uuid", singleImage);
-  app.get("/search",search);
   // post
+  app.post("/search",search);
   app.post("/upload", upload);
   app.post("/protected", auth);
 
