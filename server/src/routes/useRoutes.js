@@ -11,7 +11,7 @@ export const useRoutes = (app) => {
   app.get("/images", images);
   app.get("/:user_uuid/images", userImages);
   app.get("/image/:uuid", singleImage);
-  app.get("/user/:uuid", user);
+  app.get("/user/:user_uuid", user);
   // post
   app.post("/search", search);
   app.post("/upload", upload);
