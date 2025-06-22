@@ -1,6 +1,6 @@
 import { supabase } from "../config/supabase.js";
 
-const getImages = async (c) => {
+const images = async (c) => {
   try {
     const { data, error } = await supabase
       .from("image-list")
@@ -13,9 +13,9 @@ const getImages = async (c) => {
 
     return c.json(data, 200);
   } catch (err) {
-    console.error("Unexpected error in getImages:", err);
+    console.error("Unexpected error in images:", err);
     return c.json({ message: err.message || String(err) }, 500);
   }
 };
 
-export default getImages;
+export default images;

@@ -1,6 +1,6 @@
 import { supabase } from "../config/supabase.js";
 
-const getUserImages = async (c) => {
+const userImages = async (c) => {
   try {
     const { user_uuid } = c.req.param();
 
@@ -28,4 +28,4 @@ const getUserImages = async (c) => {
   }
 };
 
-export default getUserImages;
+export default userImages;
