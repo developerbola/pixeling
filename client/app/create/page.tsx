@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -47,7 +47,6 @@ const Create = () => {
   const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useAtomValue(userAtom);
-  useEffect(() => console.log(user), [user]);
 
   const saveValue = (
     value: string | boolean | string[] | number,

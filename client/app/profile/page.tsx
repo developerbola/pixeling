@@ -19,25 +19,37 @@ interface UserInfo {
 
 const Profile = () => {
   const session = useAtomValue(userAtom);
-
   const [user, setUser] = useState<UserInfo>({
     name: "",
     username: "",
     avatar_url: "",
-    bio: "Creative thinker, passionate about storytelling, technology, and making meaningful connections through words and ideas.",
+    bio: "",
   });
 
   useEffect(() => {
-    if (session) {
-      setUser(prevUser => ({
-        ...prevUser,
-        name: session.user_metadata.full_name || "",
-        username: session.user_metadata.name || "",
-        avatar_url: session.user_metadata?.avatar_url || session.user_metadata.avatar_url || "",
-        bio: session.user_metadata?.bio || prevUser.bio,
-      }));
-    }
-  }, [session]);
+    const fetchUser = async () => {
+      try {
+        if (!session?.id) return;
+
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${session.id}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch user data");
+
+        const data = await res.json();
+        setUser({
+          name: data.name || "",
+          username: data.username || "",
+          avatar_url: data.avatar_url || "",
+          bio: data.bio || "",
+        });
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, [session?.id]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,6 +59,18 @@ const Profile = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LINK}/user/${session?.id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: user.name,
+        username: user.username,
+        bio: user.bio,
+        avatar_url: user.avatar_url,
+      }),
+    });
   };
 
   return (
@@ -67,7 +91,10 @@ const Profile = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-4 w-full max-w-[500px]">
+        <form
+          className="flex flex-col gap-4 w-full max-w-[500px]"
+          action={handleSubmit}
+        >
           <div className="flex flex-col gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -101,10 +128,14 @@ const Profile = () => {
             />
           </div>
 
-          <Button variant={"outline"} className="px-6 w-full xs:w-auto">
+          <Button
+            variant={"outline"}
+            className="px-6 w-full xs:w-auto"
+            type="submit"
+          >
             Save
           </Button>
-        </div>
+        </form>
       </div>
     </div>
   );
