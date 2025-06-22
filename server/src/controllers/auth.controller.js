@@ -40,6 +40,7 @@ const auth = async (c) => {
         name: user.user_metadata.full_name,
         username: user.user_metadata.name,
         avatar_url: user.user_metadata.avatar_url,
+        bio: "An active Pixeling platform user.",
       },
     ]);
     if (insertError) {
