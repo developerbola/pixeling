@@ -25,15 +25,30 @@ const SingleImage = () => {
     categories: [],
     author_uuid: "",
   });
+  const [author, setAuthor] = useState({
+    name: "",
+    username: "",
+    avatar_url: "",
+  });
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    // const fetchAuthor = async () => {
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${image.author_uuid}`
+    //   );
+    //   const data = await res.json();
+    //   setAuthor(data);
+    // };
+
     const fetchImage = async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/${uuid}`
       );
       const data = await res.json();
+
       setImage(data);
+      // fetchAuthor();
     };
     fetchImage();
   }, []);
@@ -67,18 +82,16 @@ const SingleImage = () => {
         </div>
         <div>
           <h1 className="text-3xl font-bold">{image.title}</h1>
-          <h1 className="text-gray-400 text-lg">
-            {image.description}
-          </h1>
+          <h1 className="text-gray-400 text-lg">{image.description}</h1>
         </div>
         <div className="flex items-center gap-2">
           <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
-            <AvatarImage src={user?.user_metadata?.avatar_url} />
+            <AvatarImage src={author?.avatar_url} />
             <AvatarFallback>
               <LoaderCircle className="animate-spin" />
             </AvatarFallback>
           </Avatar>
-          <h1>{user?.user_metadata?.name}</h1>
+          <h1>{author?.name}</h1>
         </div>
         <div>
           <h1>Comments</h1>
