@@ -36,8 +36,12 @@ const Search = () => {
       }
       const data = await res.json();
       setImages(data);
-    } catch (error: any) {
-      toast.error(error?.message || "Something went wrong");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong");
+      }
       console.error(error);
     } finally {
       setLoading(false);
@@ -46,7 +50,7 @@ const Search = () => {
 
   useEffect(() => {
     handleSubmit(searchPrompt);
-  }, []);
+  }, [searchPrompt]);
 
   if (loading) {
     return (

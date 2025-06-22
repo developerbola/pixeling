@@ -40,7 +40,8 @@ export default function Home() {
         const data = await res.json();
         setImagesList(data);
       } catch (error) {
-        setImagesList({ code: 500, message: "Failed to fetch images" });
+        setImagesList({ code: 500, message: `Failed to fetch images: ${error}` });
+        console.log(error)
       } finally {
         setIsLoading(false);
       }

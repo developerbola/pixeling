@@ -17,7 +17,7 @@ const Callback = () => {
     };
 
     handleOAuthRedirect();
-  }, [code]);
+  }, [code,router]);
 
   return <div>Signing you in ...</div>;
 };
