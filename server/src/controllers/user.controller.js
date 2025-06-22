@@ -2,7 +2,7 @@ import { supabase } from "../config/supabase.js";
 
 const user = async (c) => {
   try {
-    const { user_uuid } = c.req.params;
+    const { user_uuid } = c.req.param();
 
     const { data, error } = await supabase
       .from("users")
