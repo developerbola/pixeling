@@ -3,9 +3,10 @@ import { notFound } from "next/navigation";
 export default async function UserPage({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
-  const { username } = await params;
+  const resolvedParams = await params;
+  const { username } = resolvedParams;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/username/${username}`,
     {

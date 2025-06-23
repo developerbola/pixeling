@@ -3,8 +3,9 @@ import ImageItem from "@/components/ImageItem";
 import Link from "next/link";
 import { LoaderCircle } from "lucide-react";
 
-const Search = async ({ params }: { params: { prompt: string } }) => {
-  const { prompt } = await params;
+const Search = async ({ params }: { params: Promise<{ prompt: string }> }) => {
+  const resolvedParams = await params;
+  const { prompt } = resolvedParams;
 
   const searchPrompt =
     typeof prompt === "string" ? prompt.split("-").join(" ") : "";

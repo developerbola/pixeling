@@ -20,9 +20,10 @@ export interface ImageType {
 export default async function SingleImagePage({
   params,
 }: {
-  params: { uuid: string };
+  params: Promise<{ uuid: string }>;
 }) {
-  const { uuid } = params;
+  const resolvedParams = await params;
+  const { uuid } = resolvedParams;
 
   // Fetch image
   const res = await fetch(
