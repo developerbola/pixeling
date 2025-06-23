@@ -47,12 +47,12 @@ export default async function SingleImagePage({
 
   return (
     <div className="w-full h-full flex justify-center">
-      <div className="flex flex-col gap-3 w-[70%]">
+      <div className="inline-flex flex-col gap-3 w-[70%]">
         {/* Image */}
-        <div className={`h-[400px] w-[${image.width}px]`}>
+        <div className={`h-[400px] w-fit`}>
           {image.imageUrl && (
             <div
-              className="rounded-lg overflow-hidden"
+              className={`rounded-lg overflow-hidden max-w-[${image.width}]`}
               style={{
                 backgroundColor: image.dominantColor,
               }}
