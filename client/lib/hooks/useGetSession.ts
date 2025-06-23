@@ -20,6 +20,7 @@ export const useGetSession = () => {
 
         if (session) {
           setUser(session.user);
+          localStorage.setItem("session_id", session.user.id);
           await fetchProtectedEndpoint(session.access_token);
         }
       } catch (error) {
@@ -54,12 +55,14 @@ export const useGetSession = () => {
     getSessionAndSubscribe();
 
     // Optional: listen to auth state changes (login/logout)
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-      if (session) {
-        fetchProtectedEndpoint(session.access_token);
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user || null);
+        if (session) {
+          fetchProtectedEndpoint(session.access_token);
+        }
       }
-    });
+    );
 
     // Cleanup listener on unmount
     return () => {
