@@ -24,7 +24,6 @@ export interface ImageType {
 export type ImagesListType = { code: number; message: string } | ImageType[];
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
   const setImagesList = useSetAtom(imagesAtom);
   const imagesList = useAtomValue(imagesAtom);
 
@@ -32,26 +31,23 @@ export default function Home() {
     const fetchImages = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/images`,
-          {
-            cache: "no-cache",
-          }
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/images`
         );
         const data = await res.json();
         setImagesList(data);
       } catch (error) {
-        setImagesList({ code: 500, message: `Failed to fetch images: ${error}` });
-        console.log(error)
-      } finally {
-        setIsLoading(false);
+        setImagesList({
+          code: 500,
+          message: `Failed to fetch images: ${error}`,
+        });
+        console.log(error);
       }
     };
 
     fetchImages();
-  }, [setImagesList]);
+  }, [imagesList]);
 
-  // Render loading state
-  if (isLoading) {
+  if (imagesList === null) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <LoaderCircle className="animate-spin" size={32} />
