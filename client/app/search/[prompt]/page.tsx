@@ -1,8 +1,6 @@
 "use client";
-import { ImageType } from "@/app/page";
+import { ImagesListType, ImageType } from "@/app/page";
 import ImageItem from "@/components/ImageItem";
-import { imagesAtom } from "@/lib/atom";
-import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,13 +9,11 @@ import { LoaderCircle } from "lucide-react";
 
 const Search = () => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [imagesList, setImagesList] = useState<ImagesListType>([]);
   const { prompt } = useParams();
-  const imagesList = useAtomValue(imagesAtom);
 
   const searchPrompt =
     typeof prompt === "string" ? prompt.split("-").join(" ") : "";
-
-  const setImages = useSetAtom(imagesAtom);
 
   const handleSubmit = async (value: string) => {
     try {
@@ -35,7 +31,7 @@ const Search = () => {
         throw new Error("Search request failed");
       }
       const data = await res.json();
-      setImages(data);
+      setImagesList(data);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
