@@ -6,6 +6,7 @@ import userImages from "../controllers/user-images.controller.js";
 import search from "../controllers/search.conroller.js";
 import user from "../controllers/user.controller.js";
 import editUser from "../controllers/edit-user.controller.js";
+import userByName from "../controllers/userByName.controller.js";
 
 export const useRoutes = (app) => {
   // get
@@ -13,6 +14,7 @@ export const useRoutes = (app) => {
   app.get("/:user_uuid/images", userImages);
   app.get("/image/:uuid", singleImage);
   app.get("/user/:user_uuid", user);
+  app.get("/user/username/:username", userByName);
   // post
   app.post("/user/:user_uuid", editUser);
   app.post("/search", search);
