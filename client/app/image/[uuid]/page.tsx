@@ -1,81 +1,60 @@
-"use client";
-import { ImageType } from "@/app/page";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { userAtom } from "@/lib/atom";
-import { cn } from "@/lib/utils";
-import { useAtomValue } from "jotai";
-import { LoaderCircle } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { LoaderCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const SingleImage = () => {
-  const { uuid } = useParams();
-  const user = useAtomValue(userAtom);
+export interface ImageType {
+  id: string;
+  created_at: string;
+  title: string;
+  description: string;
+  dominantColor: string;
+  imageUrl: string;
+  height: string;
+  width: string;
+  isCommentable: boolean;
+  categories: string[];
+  author_uuid: string;
+}
 
-  const [image, setImage] = useState<ImageType>({
-    id: "",
-    created_at: "",
-    title: "",
-    description: "",
-    dominantColor: "",
-    imageUrl: "",
-    height: "",
-    width: "",
-    isCommentable: false,
-    categories: [],
-    author_uuid: "",
-  });
+export default async function SingleImagePage({
+  params,
+}: {
+  params: { uuid: string };
+}) {
+  const { uuid } = params;
 
-  const [author, setAuthor] = useState({
-    name: "",
-    username: "",
-    avatar_url: "",
-  });
+  // Fetch image
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/${uuid}`,
+    { cache: "no-store" }
+  );
 
-  const [loaded, setLoaded] = useState<boolean>(false);
+  if (!res.ok) notFound();
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/image/${uuid}`
-      );
-      const data = await res.json();
-      setImage(data);
+  const image: ImageType = await res.json();
 
-      if (data.author_uuid) {
-        // if logged user is author — use local userAtom
-        if (user && data.author_uuid === user.id) {
-          setAuthor({
-            name: user.user_metadata.name,
-            username: user.user_metadata.name,
-            avatar_url: user.user_metadata.avatar_url,
-          });
-        } else {
-          // else fetch author data from server
-          const authorRes = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${data.author_uuid}`
-          );
-          
-          const authorData = await authorRes.json();
-          setAuthor(authorData);
-        }
-      }
-    };
+  // Fetch author
+  const authorRes = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${image.author_uuid}`,
+    { cache: "no-store" }
+  );
 
-    fetchImage();
-  }, [uuid, user]);
+  const author = authorRes.ok
+    ? await authorRes.json()
+    : { name: "Unknown", avatar_url: "" };
 
   return (
     <div className="w-full h-full flex justify-center">
       <div className="flex flex-col gap-3 w-[70%]">
         {/* Image */}
-        <div className="h-[400px]">
+        <div className="h-[400px] w-fit">
           {image.imageUrl && (
             <div
               className="rounded-lg overflow-hidden"
               style={{
-                backgroundColor: loaded ? "transparent" : image.dominantColor,
+                backgroundColor: image.dominantColor,
               }}
             >
               <Image
@@ -83,13 +62,9 @@ const SingleImage = () => {
                 alt={`${image.title} - ${image.description}`}
                 width={400}
                 height={400}
-                onLoad={() => setLoaded(true)}
                 decoding="async"
-                loading="lazy"
-                className={cn(
-                  `transition-opacity duration-500 w-auto h-[400px]`,
-                  loaded ? "opacity-100" : "opacity-0"
-                )}
+                loading="eager"
+                className="transition-opacity duration-500 w-auto h-[400px]"
               />
             </div>
           )}
@@ -109,7 +84,7 @@ const SingleImage = () => {
               <LoaderCircle className="animate-spin" />
             </AvatarFallback>
           </Avatar>
-          <h1>{author.name || "Unknown user"}</h1>
+          <h1>{author.name}</h1>
         </div>
 
         {/* Comments */}
@@ -126,6 +101,4 @@ const SingleImage = () => {
       </div>
     </div>
   );
-};
-
-export default SingleImage;
+}

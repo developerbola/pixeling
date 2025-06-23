@@ -1,30 +1,28 @@
-"use client";
+import { notFound } from "next/navigation";
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+export default async function UserPage({
+  params,
+}: {
+  params: { username: string };
+}) {
+  const { username } = await params;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/username/${username}`,
+    {
+      cache: "no-store",
+    }
+  );
 
-const User = () => {
-  const [user, setUser] = useState([]);
-  const { username } = useParams();
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userRes = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/username/${username}`
-        );
-        const userData = await userRes.json();
-        setUser(userData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUser();
-  }, []);
+  if (!res.ok) {
+    notFound();
+  }
+
+  const user = await res.json();
+
   return (
     <div>
-      User: <code>{JSON.stringify(user)}</code>
+      <h1>User Info:</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
   );
-};
-
-export default User;
+}

@@ -1,54 +1,31 @@
-"use client";
 import { ImagesListType, ImageType } from "@/app/page";
 import ImageItem from "@/components/ImageItem";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 
-const Search = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [imagesList, setImagesList] = useState<ImagesListType>([]);
-  const { prompt } = useParams();
+const Search = async ({ params }: { params: { prompt: string } }) => {
+  const { prompt } = await params;
 
   const searchPrompt =
     typeof prompt === "string" ? prompt.split("-").join(" ") : "";
 
-  const handleSubmit = async (value: string) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          searchPrompt: value,
-        }),
-      });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      searchPrompt: searchPrompt,
+    }),
+  });
 
-      if (!res.ok) {
-        throw new Error("Search request failed");
-      }
-      const data = await res.json();
-      setImagesList(data);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("Something went wrong");
-      }
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!res.ok) {
+    throw new Error("Search request failed");
+  }
 
-  useEffect(() => {
-    handleSubmit(searchPrompt);
-  }, [searchPrompt]);
+  const data: ImagesListType = await res.json();
 
-  if (loading) {
+  if (data === null) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <LoaderCircle className="animate-spin" size={32} />
@@ -56,7 +33,7 @@ const Search = () => {
     );
   }
 
-  if (Array.isArray(imagesList) && imagesList.length === 0) {
+  if (Array.isArray(data) && data.length === 0) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <h1>No images found</h1>
@@ -66,8 +43,8 @@ const Search = () => {
 
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-      {Array.isArray(imagesList) ? (
-        imagesList.map((image: ImageType) => (
+      {Array.isArray(data) ? (
+        data.map((image: ImageType) => (
           <Link href={`/image/${image.id}`} key={image.id}>
             <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
               <ImageItem image={image} />
@@ -77,7 +54,7 @@ const Search = () => {
         ))
       ) : (
         <p className="text-white text-center text-lg">
-          {imagesList?.message || "No images found."}
+          {data?.message || "No images found."}
         </p>
       )}
     </div>
