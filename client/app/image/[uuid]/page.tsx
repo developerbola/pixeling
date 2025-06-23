@@ -2,7 +2,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LoaderCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export interface ImageType {
   id: string;

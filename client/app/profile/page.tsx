@@ -8,7 +8,7 @@ import { userAtom } from "@/lib/atom";
 import { getCapitalLetters } from "@/lib/utils";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
-import React, { ChangeEvent, useState, useEffect, cache } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { toast } from "sonner";
 
 interface UserInfo {
