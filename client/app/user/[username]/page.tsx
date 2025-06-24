@@ -57,7 +57,6 @@ export default async function UserPage({
         </div>
       </div>
 
-      {/* User's Uploaded Images */}
       <div>
         {images.length > 0 ? (
           <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
@@ -83,7 +82,7 @@ export default async function UserPage({
           </div>
         ) : (
           <div className="text-gray-500">
-            This user hasn't uploaded any images yet.
+            This user hasn&apos;t uploaded any images yet.
           </div>
         )}
       </div>

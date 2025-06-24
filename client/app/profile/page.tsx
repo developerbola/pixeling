@@ -1,9 +1,13 @@
-import { useSaveSessionId } from "@/lib/hooks/useSessionId";
 import ProfileClient from "./ProfileClient";
 import { toast } from "sonner";
+import { supabaseServer } from "@/lib/supabaseServer";
+
+const supabase = supabaseServer();
 
 const Profile = async () => {
-  const session_id = await useSaveSessionId();
+  const { data: user } = await supabase.auth.getUser();
+
+  const session_id = user.user?.id;
 
   const userRes = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${session_id}`
