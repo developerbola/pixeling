@@ -29,22 +29,27 @@ const ProfileClient = ({
     avatar_url: userr.avatar_url || "",
     bio: userr.bio || "",
   });
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     try {
+      setIsUploading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_LINK}/user/${session_id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${session_id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(user),
         }
       );
+
       if (!res.ok) throw new Error("Failed to update profile");
       toast.success("Profile updated!");
     } catch (err) {
       console.error(err);
       toast.error("Failed to update profile");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -120,8 +125,9 @@ const ProfileClient = ({
             variant={"outline"}
             className="px-6 w-full xs:w-auto"
             type="submit"
+            disabled={isUploading}
           >
-            Save
+            {isUploading ? "Saving ..." : "Save"}
           </Button>
         </form>
       </div>

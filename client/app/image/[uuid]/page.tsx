@@ -1,7 +1,9 @@
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LoaderCircle } from "lucide-react";
+import Link from "next/link";
 
 export interface ImageType {
   id: string;
@@ -77,7 +79,10 @@ export default async function SingleImagePage({
         </div>
 
         {/* Author */}
-        <div className="flex items-center gap-2">
+        <Link
+          href={`/user/${author.username}`}
+          className="flex items-center gap-2"
+        >
           <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
             <AvatarImage src={author.avatar_url} />
             <AvatarFallback>
@@ -85,7 +90,7 @@ export default async function SingleImagePage({
             </AvatarFallback>
           </Avatar>
           <h1>{author.name}</h1>
-        </div>
+        </Link>
 
         {/* Comments */}
         <div>
