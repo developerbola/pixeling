@@ -53,7 +53,6 @@ export default async function UserPage({
         <div>
           <h1 className="text-3xl font-bold">{userData.name}</h1>
           <Username username={userData.username} />
-
           <p className="text-gray-500 mt-1">{userData.bio}</p>
         </div>
       </div>

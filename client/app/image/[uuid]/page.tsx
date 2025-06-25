@@ -4,6 +4,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 
+import Actions from "./Actions";
+
 export interface ImageType {
   id: string;
   created_at: string;
@@ -73,7 +75,16 @@ export default async function SingleImagePage({
 
         {/* Title + Description */}
         <div>
-          <h1 className="text-3xl font-bold">{image.title}</h1>
+          <div className="flex justify-between">
+            <h1 className="text-3xl font-bold">{image.title}</h1>
+            <div className="flex items-center gap-3">
+              <Actions
+                title={image.title}
+                description={image.description}
+                uuid={uuid}
+              />
+            </div>
+          </div>
           <h1 className="text-gray-400 text-lg">{image.description}</h1>
         </div>
 
