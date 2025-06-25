@@ -15,12 +15,12 @@ const Search = () => {
   };
 
   return (
-    <form onSubmit={handleSearch}>
+    <form onSubmit={handleSearch} className="w-full flex justify-end">
       <Input
         placeholder="Search"
         className={cn(
           isFocused
-            ? "placeholder:text-muted-foreground sm:w-[300px] exs:w-full"
+            ? "placeholder:text-muted-foreground sm:w-[300px] exs:w-[90%]"
             : "!placeholder-white w-[75px]",
           "transition-all"
         )}
