@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -48,10 +47,10 @@ export default async function SingleImagePage({
     : { name: "Unknown", avatar_url: "" };
 
   return (
-    <div className="w-full h-full flex justify-center">
-      <div className="inline-flex flex-col gap-3 w-[70%]">
+    <div className="w-full h-full">
+      <div className="inline-flex flex-col gap-3 xs:w-fit exs:w-full pb-14">
         {/* Image */}
-        <div className={`h-[400px] w-fit`}>
+        <div className={`xs:w-fit exs:w-full`}>
           {image.imageUrl && (
             <div
               className={`rounded-lg overflow-hidden max-w-[${image.width}]`}
@@ -62,11 +61,11 @@ export default async function SingleImagePage({
               <Image
                 src={image.imageUrl}
                 alt={`${image.title} - ${image.description}`}
-                width={400}
-                height={400}
+                width={500}
+                height={500}
                 decoding="async"
                 loading="eager"
-                className="transition-opacity duration-500 w-auto h-[400px]"
+                className="transition-opacity duration-500 xs:w-auto exs:w-full md:h-[400px] xs:h-[300px] exs:h-auto xs:max-h-[500px]"
               />
             </div>
           )}

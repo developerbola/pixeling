@@ -1,8 +1,9 @@
 import { ImageType } from "@/app/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LoaderCircle } from "lucide-react";
-import Image from "next/image";
 import Username from "./Username";
+import Link from "next/link";
+import ImageItem from "@/components/ImageItem";
 
 export default async function UserPage({
   params,
@@ -40,7 +41,7 @@ export default async function UserPage({
   const images = await imagesRes.json();
 
   return (
-    <div className="flex flex-col gap-6 px-8 py-6">
+    <div className="flex flex-col gap-6">
       {/* User Info */}
       <div className="flex items-center gap-4">
         <Avatar className="w-20 h-20 border-[0.5px] border-[#ffffff40]">
@@ -61,23 +62,11 @@ export default async function UserPage({
         {images.length > 0 ? (
           <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
             {images.map((image: ImageType) => (
-              <div
-                className="rounded-lg overflow-hidden exs:mb-3 sm:mb-5 break-inside-avoid"
-                style={{
-                  backgroundColor: image.dominantColor,
-                }}
-                key={image.id}
-              >
-                <Image
-                  src={image.imageUrl}
-                  alt={(image.title, image.description)}
-                  width={parseInt(image.width)}
-                  height={parseInt(image.height)}
-                  decoding="async"
-                  loading="lazy"
-                  className={"transition-opacity duration-500"}
-                />
-              </div>
+              <Link href={`/image/${image.id}`} key={image.id}>
+                <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
+                  <ImageItem image={image} />
+                </div>
+              </Link>
             ))}
           </div>
         ) : (
