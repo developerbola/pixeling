@@ -1,3 +1,4 @@
+import Actions from "@/components/Actions";
 import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
@@ -46,7 +47,15 @@ export default async function Home() {
         <Link href={`/image/${image.id}`} key={image.id}>
           <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
             <ImageItem image={image} />
-            <h2>{image.title}</h2>
+            <div className="flex items-center justify-between">
+              <h2>{image.title}</h2>
+              <Actions
+                title={image.title}
+                description={image.description}
+                uuid={image.id}
+                imageUrl={image.imageUrl}
+              />
+            </div>
           </div>
         </Link>
       ))}

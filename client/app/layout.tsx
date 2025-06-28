@@ -31,7 +31,7 @@ export default function RootLayout({
 
         <Suspense>
           <Navbar />
-          <div className="px-5 pt-[80px]">{children}</div>
+          <div className="sm:px-5 exs:px-3 pt-[80px]">{children}</div>
           <Toaster />
         </Suspense>
       </body>

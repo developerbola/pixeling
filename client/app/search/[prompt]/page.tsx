@@ -1,32 +1,42 @@
+"use client";
 import { ImagesListType, ImageType } from "@/app/page";
 import ImageItem from "@/components/ImageItem";
 import Link from "next/link";
 import { LoaderCircle } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const Search = async ({ params }: { params: Promise<{ prompt: string }> }) => {
-  const resolvedParams = await params;
-  const { prompt } = resolvedParams;
-
+const Search = () => {
+  const { prompt } = useParams();
+  const [data, setData] = useState<ImagesListType>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const searchPrompt =
     typeof prompt === "string" ? prompt.split("-").join(" ") : "";
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      searchPrompt: searchPrompt,
-    }),
-  });
+  useEffect(() => {
+    const fetchResult = async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          searchPrompt: searchPrompt,
+        }),
+      });
 
-  if (!res.ok) {
-    throw new Error("Search request failed");
-  }
+      if (!res.ok) {
+        throw new Error("Search request failed");
+      }
 
-  const data: ImagesListType = await res.json();
+      const dataJson = await res.json();
+      setData(dataJson);
+      setIsLoading(false);
+    };
+    fetchResult();
+  }, []);
 
-  if (data === null) {
+  if (isLoading) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <LoaderCircle className="animate-spin" size={32} />
@@ -34,7 +44,7 @@ const Search = async ({ params }: { params: Promise<{ prompt: string }> }) => {
     );
   }
 
-  if (Array.isArray(data) && data.length === 0) {
+  if (Array.isArray(data) && data.length === 0 && !isLoading) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <h1>No images found</h1>

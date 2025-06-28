@@ -4,7 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 
-import Actions from "./Actions";
+import Actions from "../../../components/Actions";
 
 export interface ImageType {
   id: string;
@@ -50,57 +50,60 @@ export default async function SingleImagePage({
 
   return (
     <div className="w-full h-full">
-      <div className="inline-flex flex-col gap-3 xs:w-fit exs:w-full pb-14">
+      <div className="inline-flex flex-col gap-4 xs:w-fit exs:w-full pb-14">
         {/* Image */}
-        <div className={`xs:w-fit exs:w-full`}>
-          {image.imageUrl && (
-            <div
-              className={`rounded-lg overflow-hidden max-w-[${image.width}]`}
-              style={{
-                backgroundColor: image.dominantColor,
-              }}
-            >
-              <Image
-                src={image.imageUrl}
-                alt={`${image.title} - ${image.description}`}
-                width={500}
-                height={500}
-                decoding="async"
-                loading="eager"
-                className="transition-opacity duration-500 xs:w-auto exs:w-full md:h-[400px] xs:h-[300px] exs:h-auto xs:max-h-[500px]"
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Title + Description */}
-        <div>
-          <div className="flex justify-between">
-            <h1 className="text-3xl font-bold">{image.title}</h1>
-            <div className="flex items-center gap-3">
-              <Actions
-                title={image.title}
-                description={image.description}
-                uuid={uuid}
-              />
-            </div>
+        <div className="inline-flex flex-col gap-3 xs:w-fit exs:w-full">
+          <div className={`xs:w-fit exs:w-full`}>
+            {image.imageUrl && (
+              <div
+                className={`rounded-lg overflow-hidden max-w-[${image.width}]`}
+                style={{
+                  backgroundColor: image.dominantColor,
+                }}
+              >
+                <Image
+                  src={image.imageUrl}
+                  alt={`${image.title} - ${image.description}`}
+                  width={500}
+                  height={500}
+                  decoding="async"
+                  loading="eager"
+                  className="transition-opacity duration-500 xs:w-auto exs:w-full md:h-[400px] xs:h-[300px] exs:h-auto xs:max-h-[500px]"
+                />
+              </div>
+            )}
           </div>
-          <h1 className="text-gray-400 text-lg">{image.description}</h1>
-        </div>
 
-        {/* Author */}
-        <Link
-          href={`/user/${author.username}`}
-          className="flex items-center gap-2"
-        >
-          <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
-            <AvatarImage src={author.avatar_url} />
-            <AvatarFallback>
-              <LoaderCircle className="animate-spin" />
-            </AvatarFallback>
-          </Avatar>
-          <h1>{author.name}</h1>
-        </Link>
+          {/* Title + Description */}
+          <div>
+            <div className="flex justify-between">
+              <h1 className="text-3xl font-bold">{image.title}</h1>
+              <div className="flex items-center gap-3">
+                <Actions
+                  title={image.title}
+                  description={image.description}
+                  uuid={uuid}
+                  imageUrl={image.imageUrl}
+                />
+              </div>
+            </div>
+            <h1 className="text-gray-400 text-lg">{image.description}</h1>
+          </div>
+
+          {/* Author */}
+          <Link
+            href={`/user/${author.username}`}
+            className="flex items-center gap-2"
+          >
+            <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40]">
+              <AvatarImage src={author.avatar_url} />
+              <AvatarFallback>
+                <LoaderCircle className="animate-spin" />
+              </AvatarFallback>
+            </Avatar>
+            <h1>{author.name}</h1>
+          </Link>
+        </div>
 
         {/* Comments */}
         <div>
