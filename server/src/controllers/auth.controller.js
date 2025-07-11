@@ -39,7 +39,7 @@ const auth = async (c) => {
       {
         id: user.id,
         name: user.user_metadata.full_name,
-        username: user.user_metadata.name.toLowerCase(),
+        username: user.user_metadata.name.split(" ")[0].toLowerCase(),
         avatar_url: user.user_metadata.avatar_url,
         bio: "An active Pixeling platform user.",
       },
