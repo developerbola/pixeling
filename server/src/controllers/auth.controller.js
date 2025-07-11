@@ -17,9 +17,10 @@ const auth = async (c) => {
   const { data: getUser, error } = await supabase.auth.getUser(token);
 
   if (error || !getUser.user) {
-    console.log("Invalid token");
-    return c.json({ error: "Invalid token" }, 401);
+    console.log("Invalid token", error);
+    return c.json({ error: "Invalid access token" }, 401);
   }
+
   const user = getUser.user;
 
   const { data: existingUser, error: fetchError } = await supabase
