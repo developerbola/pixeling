@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
@@ -17,11 +18,9 @@ import { LoaderCircle } from "lucide-react";
 import { handleLogin } from "@/lib/handlers";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
-import { useGetSession } from "@/lib/hooks/useGetSession";
 import { useLogOut } from "@/lib/hooks/userLogOut";
 
 const Navbar = () => {
-  useGetSession();
   const user = useAtomValue(userAtom);
   const logOut = useLogOut();
 

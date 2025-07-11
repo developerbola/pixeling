@@ -2,6 +2,7 @@ import Actions from "@/components/Actions";
 import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
+import { GetSession } from "./GetSession";
 
 export interface ImageType {
   id: string;
@@ -20,7 +21,9 @@ export interface ImageType {
 export type ImagesListType = { code: number; message: string } | ImageType[];
 
 export default async function Home() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`, {
+    cache: "no-cache",
+  });
   const data = await res.json();
 
   if (data === null) {
@@ -43,6 +46,7 @@ export default async function Home() {
   // Render images
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
+      <GetSession />
       {data?.map((image: ImageType) => (
         <Link href={`/image/${image.id}`} key={image.id}>
           <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
