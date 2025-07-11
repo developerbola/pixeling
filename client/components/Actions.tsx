@@ -39,8 +39,9 @@ const Actions = ({ title, description, uuid, imageUrl }: ActionsProps) => {
 
   const handleDownload = async () => {
     const response = await fetch(
-      `http://localhost:3000/api/download?url=${imageUrl}`
+      `https://pixeling-server.vercel.app/api/download?url=${imageUrl}`
     );
+
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
 
@@ -56,15 +57,19 @@ const Actions = ({ title, description, uuid, imageUrl }: ActionsProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="focus:border-none focus:outline-none hover:cursor-pointer">
+      <DropdownMenuTrigger className="relative focus:border-none focus:outline-none hover:cursor-pointer">
         <Ellipsis />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleShare}>Share</DropdownMenuItem>
-        <DropdownMenuItem>
-          <button onClick={handleDownload}>Download</button>
+        <DropdownMenuItem
+          onClick={() => {
+            handleDownload();
+          }}
+        >
+          Download
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

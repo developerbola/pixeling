@@ -48,20 +48,25 @@ export default async function Home() {
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
       <GetSession />
       {data?.map((image: ImageType) => (
-        <Link href={`/image/${image.id}`} key={image.id}>
-          <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
+        <div
+          key={image.id}
+          className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2"
+        >
+          <Link href={`/image/${image.id}`}>
             <ImageItem image={image} />
-            <div className="flex items-center justify-between">
+          </Link>
+          <div className="flex items-center justify-between">
+            <Link href={`/image/${image.id}`}>
               <h2>{image.title}</h2>
-              <Actions
-                title={image.title}
-                description={image.description}
-                uuid={image.id}
-                imageUrl={image.imageUrl}
-              />
-            </div>
+            </Link>
+            <Actions
+              title={image.title}
+              description={image.description}
+              uuid={image.id}
+              imageUrl={image.imageUrl}
+            />
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
