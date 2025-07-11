@@ -40,10 +40,6 @@ export const useGetSession = () => {
         } = await supabase.auth.getSession();
         if (session) {
           setUser(session.user);
-          const access_token = session.access_token;
-          console.log(access_token);
-
-          await fetchProtectedEndpoint(access_token);
         }
       } catch (error) {
         console.error(error);
