@@ -14,7 +14,7 @@ export interface ImageType {
   height: string;
   width: string;
   isCommentable: boolean;
-  categories: string[];
+  tags: string[];
   author_uuid: string;
 }
 

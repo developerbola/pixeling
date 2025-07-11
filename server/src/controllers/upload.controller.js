@@ -1,5 +1,4 @@
 import { supabase } from "../config/supabase.js";
-import getDominantColorOfImage from "../helpers/getDominantColor.js";
 import imageUploadSchema from "../schema/image.schema.js";
 import { buffer } from "stream/consumers";
 
@@ -16,7 +15,8 @@ const upload = async (c) => {
       width: body.get("width"),
       isCommentable: body.get("isCommentable"),
       isPublic: body.get("isPublic"),
-      categories: body.get("categories"),
+      dominantColor: body.get("dominantColor"),
+      tags: body.get("tags"),
       author_uuid: body.get("author_uuid"),
     };
 
@@ -40,12 +40,12 @@ const upload = async (c) => {
       width,
       isCommentable,
       isPublic,
-      categories,
+      dominantColor,
+      tags,
       author_uuid,
     } = parseResult.data;
 
     let publicUrl = "";
-    let dominantColor = "";
 
     if (file && typeof file.stream === "function") {
       const filePath = `${Date.now()}.png`;
@@ -75,24 +75,8 @@ const upload = async (c) => {
       }
 
       publicUrl = publicUrlData.publicUrl;
-
-      try {
-        const rgbColor = await getDominantColorOfImage(publicUrl);
-        dominantColor = `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`;
-      } catch (colorError) {
-        console.error("Color extraction error:", colorError);
-        dominantColor = "rgb(0, 0, 0)";
-      }
     } else if (imageUrl) {
       publicUrl = imageUrl;
-
-      try {
-        const rgbColor = await getDominantColorOfImage(imageUrl);
-        dominantColor = `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`;
-      } catch (colorError) {
-        console.error("Color extraction error:", colorError);
-        dominantColor = "rgb(0, 0, 0)";
-      }
     } else {
       return c.json({ error: "No image provided" }, 400);
     }
@@ -107,7 +91,7 @@ const upload = async (c) => {
         dominantColor,
         isCommentable: isCommentable === "true",
         isPublic: isPublic === "true",
-        categories,
+        tags,
         author_uuid,
       },
     ]);

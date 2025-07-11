@@ -1,49 +1,46 @@
 "use client";
 
-import { Category } from "@/components/Category";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { useState } from "react";
-import { Upload } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Copy, Loader, Upload } from "lucide-react";
+import { cn, getDominantColorOfImage, toCapitalize } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
+import { Tags } from "@/components/Tags";
+
+export type UploadDataType = {
+  file: string;
+  title: string;
+  description: string;
+  height: number;
+  width: number;
+  tags: string[];
+  dominantColor: string;
+  isCommentable: boolean;
+  isPublic: boolean;
+};
 
 const Create = () => {
   const router = useRouter();
-  const [uploadData, setUploadData] = useState<{
-    file: string;
-    title: string;
-    description: string;
-    height: number;
-    width: number;
-    categories: string[];
-    isCommentable: boolean;
-    isPublic: boolean;
-  }>({
+  const [uploadData, setUploadData] = useState<UploadDataType>({
     file: "",
     title: "",
     description: "",
     height: 0,
     width: 0,
-    categories: [],
+    tags: [],
+    dominantColor: "#FFFFFF",
     isCommentable: true,
     isPublic: true,
   });
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useAtomValue(userAtom);
@@ -84,9 +81,10 @@ const Create = () => {
 
     formData.append("title", uploadData.title);
     formData.append("description", uploadData.description);
-    formData.append("categories", JSON.stringify(uploadData.categories));
+    formData.append("tags", JSON.stringify(uploadData.tags));
     formData.append("height", uploadData.height.toString());
     formData.append("width", uploadData.width.toString());
+    formData.append("dominantColor", uploadData.dominantColor.toString());
     formData.append(
       "isCommentable",
       uploadData.isCommentable ? "true" : "false"
@@ -94,10 +92,12 @@ const Create = () => {
     formData.append("isPublic", uploadData.isPublic ? "true" : "false");
     formData.append("author_uuid", user?.id ? user.id : "sOmEuIdHeRe");
 
+    console.log(uploadData);
     try {
       toast.promise(
         async () => {
           setIsLoading(true);
+
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`,
             {
@@ -137,7 +137,12 @@ const Create = () => {
           className="w-auto"
           disabled={isLoading}
         >
-          {isLoading ? "Uploading" : "Upload"} <Upload className="ml-2" />
+          {isLoading ? "Uploading" : "Upload"}{" "}
+          {isLoading ? (
+            <Loader className="animate-spin" size={15} />
+          ) : (
+            <Upload className="ml-2" />
+          )}
         </Button>
       </div>
 
@@ -149,7 +154,7 @@ const Create = () => {
               type="file"
               className="absolute top-0 left-0 w-full h-[calc(100%-50px)] cursor-pointer rounded-2xl opacity-0"
               accept="image/png, image/jpeg, image/jpg"
-              onChange={(e) => {
+              onChange={async (e) => {
                 const selectedFile = e.target.files?.[0];
                 if (!selectedFile) return;
 
@@ -158,8 +163,21 @@ const Create = () => {
                   return;
                 }
 
+                try {
+                  const averageColor = await getDominantColorOfImage(
+                    selectedFile
+                  );
+
+                  setUploadData((prev) => ({
+                    ...prev,
+                    dominantColor: averageColor,
+                  }));
+                } catch (error) {
+                  console.error("Failed to get color:", error);
+                }
+
                 const imageURL = URL.createObjectURL(selectedFile);
-                const title = selectedFile.name.split(".")[0];
+                const title = toCapitalize(selectedFile.name.split(".")[0]);
                 saveValue(title, "title");
                 saveValue(imageURL, "file");
                 setIsImageLoaded(false);
@@ -201,49 +219,6 @@ const Create = () => {
                 />
               )}
             </div>
-
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild className="mt-4">
-                <Button className="w-full" variant={"outline"}>
-                  Save from Pinterest
-                  <Image
-                    src={"/pinterest.svg"}
-                    alt="Pinterest"
-                    width={18}
-                    height={18}
-                    className="ml-2"
-                  />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="flex flex-col gap-3 w-[500px]">
-                <h3>Enter Pinterest pin url</h3>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
-                    const url = formData.get("imageUrl") as string;
-                    if (url && url.includes("https://i.pinimg.com")) {
-                      saveValue(url, "file");
-                      setOpen(false);
-                    } else {
-                      setOpen(true);
-                      setIsEmpty(true);
-                    }
-                  }}
-                  className="flex flex-col gap-3"
-                >
-                  <Input
-                    name="imageUrl"
-                    placeholder="Add here pin url"
-                    type="url"
-                    className={cn(
-                      isEmpty && "border-red-500 !placeholder-red-500"
-                    )}
-                  />
-                  <Button type="submit">Continue</Button>
-                </form>
-              </PopoverContent>
-            </Popover>
           </div>
         </div>
 
@@ -275,8 +250,8 @@ const Create = () => {
           </div>
 
           <div>
-            <Label className="mb-2">Categories</Label>
-            <Category setUploadData={setUploadData} />
+            <Label className="mb-2">Tags</Label>
+            <Tags setUploadData={setUploadData} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -291,14 +266,37 @@ const Create = () => {
             />
           </div>
           <div className="flex items-center justify-between">
-            <Label className="mb-1" htmlFor="allow-comment">
+            <Label className="mb-1" htmlFor="allow-public">
               Allow to public
             </Label>
             <Switch
-              id="allow-comment"
+              id="allow-public"
               checked={uploadData.isPublic}
               onCheckedChange={(checked) => saveValue(checked, "isPublic")}
             />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label className="mb-1" htmlFor="color-picker">
+              Cover color (dominant color of image)
+            </Label>
+            <div className="flex items-center gap-4">
+              <p>{uploadData.dominantColor}</p>
+              <span
+                className="grid place-items-center cursor-copy size-[30px] rounded-[8px] border border-[#FFFFFF40] group"
+                style={{
+                  background: uploadData.dominantColor,
+                }}
+                onClick={() => {
+                  navigator.clipboard.writeText(uploadData.dominantColor);
+                  toast.success("Color copied to clipboard");
+                }}
+              >
+                <Copy
+                  size={17}
+                  className="mix-blend-difference group-hover:opacity-100 opacity-0 transition-opacity"
+                />
+              </span>
+            </div>
           </div>
         </div>
       </div>
