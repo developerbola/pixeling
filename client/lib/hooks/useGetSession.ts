@@ -40,6 +40,8 @@ export const useGetSession = () => {
         } = await supabase.auth.getSession();
         if (session) {
           setUser(session.user);
+          const access_token = session.access_token;
+          await fetchProtectedEndpoint(access_token);
         }
       } catch (error) {
         console.error(error);
@@ -48,16 +50,5 @@ export const useGetSession = () => {
     };
 
     getSessionAndSubscribe();
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user || null);
-      if (session) {
-        fetchProtectedEndpoint(session.access_token);
-      }
-    });
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
   }, []);
 };
