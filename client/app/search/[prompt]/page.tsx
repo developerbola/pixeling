@@ -1,4 +1,5 @@
 "use client";
+
 import { ImagesListType, ImageType } from "@/app/page";
 import ImageItem from "@/components/ImageItem";
 import Link from "next/link";

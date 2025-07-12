@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
+import { GetSession } from "./GetSession";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,6 +22,7 @@ export default function RootLayout({
         <link rel="icon" href="/logo.svg" type="image/svg" />
       </head>
       <body>
+        <GetSession />
         <NextTopLoader
           color="#ffffff"
           height={3}
@@ -28,8 +30,8 @@ export default function RootLayout({
           showSpinner={false}
         />
 
+        <Navbar />
         <Suspense>
-          <Navbar />
           <div className="sm:px-5 exs:px-3 pt-[80px]">{children}</div>
           <Toaster />
         </Suspense>

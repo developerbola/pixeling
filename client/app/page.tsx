@@ -2,7 +2,6 @@ import Actions from "@/components/Actions";
 import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
-import { GetSession } from "./GetSession";
 
 export interface ImageType {
   id: string;
@@ -46,7 +45,6 @@ export default async function Home() {
   // Render images
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-      <GetSession />
       {data?.map((image: ImageType) => (
         <div
           key={image.id}
