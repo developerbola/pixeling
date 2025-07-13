@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
@@ -12,15 +12,16 @@ import {
 import { Button } from "./ui/button";
 import { LoaderCircle } from "lucide-react";
 import { handleLogin } from "@/lib/handlers";
-
-import { useAtomValue } from "jotai";
-import { userAtom } from "@/lib/atom";
 import { useLogOut } from "@/lib/hooks/userLogOut";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
+import { memo } from "react";
 
-export const AuthControls = () => {
-
-  const user = useAtomValue(userAtom);
+export const AuthControls = memo(function AuthControls({
+  user,
+}: {
+  user: User | null;
+}) {
   const logOut = useLogOut();
 
   return (
@@ -64,4 +65,4 @@ export const AuthControls = () => {
       )}
     </div>
   );
-};
+});

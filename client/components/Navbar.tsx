@@ -5,9 +5,10 @@ import Link from "next/link";
 import Search from "./Search";
 import { cn } from "@/lib/utils";
 import { AuthControls } from "./AuthControls";
+import { User } from "@supabase/supabase-js";
 import { memo } from "react";
 
-const Navbar = memo(() => {
+const Navbar = memo(function Navbar({ user }: { user: User | null }) {
   return (
     <nav className="flex fixed items-center p-5 h-[80px] w-full bg-[#0b0809c8] backdrop-blur-md z-[99]">
       <div className="flex w-full justify-between">
@@ -29,7 +30,7 @@ const Navbar = memo(() => {
           )}
         >
           <Search />
-          <AuthControls />
+          <AuthControls user={user} />
         </div>
       </div>
     </nav>

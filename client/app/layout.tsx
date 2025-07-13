@@ -6,11 +6,16 @@ import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
 import { GetSession } from "./GetSession";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/lib/atom";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = useAtomValue(userAtom);
+
   return (
     <html lang="en">
       <head>
@@ -30,7 +35,7 @@ export default function RootLayout({
           showSpinner={false}
         />
 
-        <Navbar />
+        <Navbar user={user} />
         <Suspense>
           <div className="sm:px-5 exs:px-3 pt-[80px]">{children}</div>
           <Toaster />

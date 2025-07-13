@@ -215,7 +215,8 @@ const Create = () => {
                   width={200}
                   height={100}
                   className="w-[150px] h-[80px]"
-                  priority
+                  placeholder="blur"
+                  blurDataURL="/default_placeholder.svg"
                 />
               )}
             </div>

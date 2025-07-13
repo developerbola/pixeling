@@ -3,15 +3,16 @@
 import { useState } from "react";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
+  const router = useRouter();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = searchValue.split(" ").join("-").toLowerCase();
-
-    window.location.href = `/search/${value}`;
+    router.push(`/search/${value}`);
   };
 
   return (
