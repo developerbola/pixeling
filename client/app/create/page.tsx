@@ -146,15 +146,36 @@ const Create = () => {
         </Button>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-center md:items-start items-center gap-6 xs:gap-8 md:gap-10 px-4 xs:px-6 md:px-16">
+      <div className="flex flex-col lg:flex-row justify-center md:items-start items-center gap-6 xs:gap-8 md:gap-10 px-4 xs:px-6 md:px-16 pb-8">
         {/* Image Upload Section */}
         <div className="flex flex-col items-center justify-center relative w-full max-w-[500px]">
           <div className="relative w-full">
             <input
               type="file"
+              onDragOver={(e) => {
+                e.preventDefault();
+                const element = document.getElementById("dropArea");
+                if (element) {
+                  element.style.boxShadow =
+                    "0px 0px 0px 10px #ffffff15, 0px 0px 0px 20px #ffffff15";
+                }
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault();
+                const element = document.getElementById("dropArea");
+                if (element) {
+                  element.style.boxShadow = "none";
+                }
+              }}
               className="absolute top-0 left-0 w-full h-[calc(100%-50px)] cursor-pointer rounded-2xl opacity-0"
               accept="image/png, image/jpeg, image/jpg"
               onChange={async (e) => {
+                e.preventDefault();
+                const element = document.getElementById("dropArea");
+                if (element) {
+                  element.style.boxShadow = "none";
+                }
+
                 const selectedFile = e.target.files?.[0];
                 if (!selectedFile) return;
 
@@ -188,8 +209,9 @@ const Create = () => {
             <div
               className={cn(
                 !uploadData.file && "aspect-[5/6] grid place-items-center",
-                "w-full exs:max-w-full sm:max-w-[500px] xs:max-w-[280px] rounded-2xl overflow-hidden bg-[#181818]"
+                "w-full exs:max-w-full sm:max-w-[500px] xs:max-w-[280px] rounded-2xl overflow-hidden bg-[#181818] transition-shadow duration-200"
               )}
+              id="dropArea"
             >
               {uploadData.file ? (
                 <img
