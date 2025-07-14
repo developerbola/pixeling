@@ -118,18 +118,22 @@ const CommentsLogic = ({ image }: { image: ImageType }) => {
           </div>
         )
       ) : null}
-      <form className="flex items-center gap-2" onSubmit={handleSubmit}>
-        <Input
-          placeholder="New comment"
-          onChange={(e) => setNewComment(e.target.value)}
-          value={newComment}
-        />
-        {newComment.trim() ? (
-          <Button variant={"ghost"} type="submit">
-            <PlusCircle />
-          </Button>
-        ) : null}
-      </form>
+      {!user ? (
+        <p className="text-gray-500">Login for add comments</p>
+      ) : (
+        <form className="flex items-center gap-2" onSubmit={handleSubmit}>
+          <Input
+            placeholder="New comment"
+            onChange={(e) => setNewComment(e.target.value)}
+            value={newComment}
+          />
+          {newComment.trim() ? (
+            <Button variant={"ghost"} type="submit">
+              <PlusCircle />
+            </Button>
+          ) : null}
+        </form>
+      )}
     </div>
   );
 };
