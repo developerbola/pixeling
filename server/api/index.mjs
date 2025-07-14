@@ -23,5 +23,3 @@ export const PATCH = handler;
 export const PUT = handler;
 export const OPTIONS = handler;
 export const DELETE = handler;
-
-export default app
