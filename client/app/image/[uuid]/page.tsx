@@ -6,20 +6,7 @@ import Link from "next/link";
 
 import Actions from "../../../components/Actions";
 import Comments from "@/components/Comments";
-
-export interface ImageType {
-  id: string;
-  created_at: string;
-  title: string;
-  description: string;
-  dominantColor: string;
-  imageUrl: string;
-  height: string;
-  width: string;
-  isCommentable: boolean;
-  tags: string[];
-  author_uuid: string;
-}
+import { ImageType } from "@/app/page";
 
 export default async function SingleImagePage({
   params,
@@ -107,16 +94,7 @@ export default async function SingleImagePage({
         </div>
 
         {/* Comments */}
-        <div>
-          <h1 className="text-xl font-semibold">Comments</h1>
-          {image.isCommentable ? (
-            <Comments image_uuid={image.id} />
-          ) : (
-            <div className="italic text-gray-500">
-              Comments are disabled for this image.
-            </div>
-          )}
-        </div>
+        <Comments image={image} />
       </div>
     </div>
   );
