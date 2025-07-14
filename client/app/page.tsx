@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Actions from "@/components/Actions";
 import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
@@ -20,11 +23,27 @@ export interface ImageType {
 
 export type ImagesListType = { code: number; message: string } | ImageType[];
 
-export default async function Home() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`, {
-    cache: "no-cache",
-  });
-  const data = await res.json();
+export default function Home() {
+  const [data, setData] = useState<ImagesListType | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/images`, {
+      cache: "no-cache",
+    })
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      .catch(() => setData({ code: 500, message: "Failed to load images." }))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
+        <LoaderCircle className="animate-spin" size={32} />
+      </div>
+    );
+  }
 
   if (data === null) {
     return (
@@ -35,7 +54,7 @@ export default async function Home() {
   }
 
   // Render error state
-  if (data && !Array.isArray(data)) {
+  if (!Array.isArray(data)) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <h2 className="text-2xl">{data.message}</h2>
@@ -46,7 +65,7 @@ export default async function Home() {
   // Render images
   return (
     <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-      {data?.map((image: ImageType) => (
+      {data.map((image: ImageType) => (
         <div
           key={image.id}
           className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2"
