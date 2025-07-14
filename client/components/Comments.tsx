@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageType } from "@/app/page";
-import { Delete, LoaderCircle, PlusCircle, Trash } from "lucide-react";
+import { LoaderCircle, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
