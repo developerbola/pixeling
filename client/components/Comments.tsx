@@ -52,7 +52,7 @@ const CommentsLogic = ({ image }: { image: ImageType }) => {
       author_avatar_url: user?.user_metadata?.avatar_url,
       comment: newComment,
     };
-    const commentAddLink = `http://localhost:3000/api/comments/add`;
+    const commentAddLink = `${url}/add`;
     try {
       const res = await fetch(commentAddLink, {
         method: "POST",
