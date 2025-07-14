@@ -1,10 +1,9 @@
-import { supabase } from "../config/supabase.js";
+import { supabase } from "../../config/supabase.js";
 
 const editUser = async (c) => {
   try {
     const { user_uuid } = c.req.param();
     const { name, username, avatar_url, bio } = await c.req.json();
-    console.log({ name, username, avatar_url, bio });
 
     const { data, error } = await supabase
       .from("users")

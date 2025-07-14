@@ -1,5 +1,5 @@
-import { supabase } from "../config/supabase.js";
-import imageUploadSchema from "../schema/image.schema.js";
+import { supabase } from "../../config/supabase.js";
+import imageUploadSchema from "../../schema/image.schema.js";
 import { buffer } from "stream/consumers";
 
 const upload = async (c) => {

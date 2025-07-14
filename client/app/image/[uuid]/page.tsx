@@ -5,6 +5,7 @@ import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 
 import Actions from "../../../components/Actions";
+import Comments from "@/components/Comments";
 
 export interface ImageType {
   id: string;
@@ -109,7 +110,7 @@ export default async function SingleImagePage({
         <div>
           <h1 className="text-xl font-semibold">Comments</h1>
           {image.isCommentable ? (
-            <div className="text-gray-400">Comments section coming soon…</div>
+            <Comments image_uuid={image.id} />
           ) : (
             <div className="italic text-gray-500">
               Comments are disabled for this image.

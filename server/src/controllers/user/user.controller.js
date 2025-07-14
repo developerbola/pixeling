@@ -1,15 +1,14 @@
-import { supabase } from "../config/supabase.js";
+import { supabase } from "../../config/supabase.js";
 
-const userByName = async (c) => {
+const user = async (c) => {
   try {
-    const { username } = c.req.param();
-
-    const lowerCaseUsername = username.toLowerCase();
+    const { user_uuid } = c.req.param();
 
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("username", lowerCaseUsername);
+      .eq("id", user_uuid)
+      .single();
 
     if (error) {
       return c.json(
@@ -33,4 +32,4 @@ const userByName = async (c) => {
   }
 };
 
-export default userByName;
+export default user;
