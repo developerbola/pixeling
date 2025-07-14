@@ -100,7 +100,7 @@ const CommentsLogic = ({ image }: { image: ImageType }) => {
                   className="flex flex-wrap gap-2"
                 >
                   <Link
-                    href={`/user/${comment.author_uuid}`}
+                    href={`/user/${comment.author_name.toLowerCase()}`}
                     className="flex items-center gap-1"
                   >
                     <Avatar className="cursor-pointer border-[0.5px] border-[#ffffff40] size-5">
