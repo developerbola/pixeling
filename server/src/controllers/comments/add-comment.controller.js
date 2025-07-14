@@ -1,4 +1,4 @@
-import { supabase } from "../../config/supabase";
+import { supabase } from "../../config/supabase.js";
 
 const addComment = async (c) => {
   const { image_uuid, author_uuid, author_name, author_avatar_url, comment } =
