@@ -12,6 +12,37 @@ interface ImageItemProps {
 export default function ImageItem({ image }: ImageItemProps) {
   const [loaded, setLoaded] = useState<boolean>(false);
 
+  if (!image.isPublic) {
+    return (
+      <div
+        className="relative rounded-lg overflow-hidden cursor-not-allowed"
+        style={{
+          backgroundColor: loaded ? "transparent" : image.dominantColor,
+        }}
+      >
+        <Image
+          src={image.imageUrl}
+          alt={(image.title, image.description)}
+          width={parseInt(image.width)}
+          height={parseInt(image.height)}
+          onLoad={() => setLoaded(true)}
+          decoding="async"
+          loading="lazy"
+          className={cn(
+            `transition-opacity duration-500 blur-xl`,
+            loaded ? "opacity-100" : "opacity-0"
+          )}
+        />
+        <p
+          className="absolute top-1/2 left-1/2 w-full text-center"
+          style={{ transform: "translate(-50%,-50%)" }}
+        >
+          This Content is not public
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative rounded-lg overflow-hidden"

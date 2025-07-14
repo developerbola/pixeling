@@ -13,6 +13,7 @@ export interface ImageType {
   height: string;
   width: string;
   isCommentable: boolean;
+  isPublic: boolean;
   tags: string[];
   author_uuid: string;
 }

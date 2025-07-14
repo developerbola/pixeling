@@ -60,13 +60,22 @@ export default async function UserPage({
       <div>
         {images.length > 0 ? (
           <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-            {images.map((image: ImageType) => (
-              <Link href={`/image/${image.id}`} key={image.id}>
-                <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
+            {images.map((image: ImageType) =>
+              image.isPublic ? (
+                <Link href={`/image/${image.id}`} key={image.id}>
+                  <div className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2">
+                    <ImageItem image={image} />
+                  </div>
+                </Link>
+              ) : (
+                <div
+                  className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2"
+                  key={image.id}
+                >
                   <ImageItem image={image} />
                 </div>
-              </Link>
-            ))}
+              )
+            )}
           </div>
         ) : (
           <div className="text-gray-500">
