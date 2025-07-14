@@ -10,9 +10,9 @@ import { useCors } from "../src/cors/useCors.js";
 const app = new Hono().basePath("/api");
 
 // apply CORS
-useCors(app)
+useCors(app);
 // apply Routes
-useRoutes(app)
+useRoutes(app);
 
 // Export the Vercel handler and HTTP method handlers
 const handler = handle(app);
@@ -23,5 +23,3 @@ export const PATCH = handler;
 export const PUT = handler;
 export const OPTIONS = handler;
 export const DELETE = handler;
-
-export default app
