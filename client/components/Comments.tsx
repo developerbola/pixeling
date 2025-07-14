@@ -61,10 +61,7 @@ const CommentsLogic = ({ image }: { image: ImageType }) => {
         },
         body: JSON.stringify(_new),
       });
-      console.log(res);
-
       const data = await res.json();
-      console.log(data);
 
       if (!res.ok) {
         toast.error(data.error || "Something went wrong!");
