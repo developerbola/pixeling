@@ -4,6 +4,8 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ImageType } from "@/app/page";
 import Image from "next/image";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/lib/atom";
 
 interface ImageItemProps {
   image: ImageType;
@@ -12,7 +14,9 @@ interface ImageItemProps {
 export default function ImageItem({ image }: ImageItemProps) {
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  if (!image.isPublic) {
+  const user = useAtomValue(userAtom);
+
+  if (!image.isPublic && user?.id !== image.author_uuid) {
     return (
       <div
         className="relative rounded-lg overflow-hidden cursor-not-allowed"

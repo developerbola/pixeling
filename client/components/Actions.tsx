@@ -71,6 +71,14 @@ const Actions = ({ title, description, uuid, imageUrl }: ActionsProps) => {
         >
           Download
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            navigator.clipboard.writeText(imageUrl);
+            toast.success("Image url is copied");
+          }}
+        >
+          Copy link
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
