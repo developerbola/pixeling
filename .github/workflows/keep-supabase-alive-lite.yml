@@ -13,7 +13,7 @@ jobs:
       - name: Ping Supabase via PostgREST
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.ROLE_KEY }}
         run: |
           response=$(curl -s \
             -X GET "${SUPABASE_URL}/rest/v1/" \
