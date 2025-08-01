@@ -14,12 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22" # Use Node.js 18
-
       # Step 3: Install Supabase Client
       - name: Install Supabase Client
         run: npm install @supabase/supabase-js --force
