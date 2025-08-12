@@ -1,11 +1,13 @@
 "use client";
 
-import { ImagesListType, ImageType } from "@/app/page";
+import { ImageType } from "@/app/page";
 import ImageItem from "@/components/ImageItem";
 import Link from "next/link";
 import { LoaderCircle } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+export type ImagesListType = { code: number; message: string } | ImageType[];
 
 const Search = () => {
   const { prompt } = useParams();
