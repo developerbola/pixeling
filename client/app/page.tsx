@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Actions from "@/components/Actions";
 import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
@@ -21,77 +21,78 @@ export interface ImageType {
   author_uuid: string;
 }
 
-interface PaginatedResponse {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-  data: ImageType[];
-}
+export type ImagesListType = { code: number; message: string } | ImageType[];
 
 export default function Home() {
-  const [images, setImages] = useState<ImageType[]>([]);
+  const [data, setData] = useState<ImageType[]>([]);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const limit = 10;
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
-  const isFetchingRef = useRef(false); // prevent double fetch
+  const [loading, setLoading] = useState(true); // first page load
+  const [bottomLoading, setBottomLoading] = useState(false); // scroll load
+  const [hasMore, setHasMore] = useState(true); // stop when no more images
 
-  const fetchImages = async (pageNum: number) => {
-    if (isFetchingRef.current) return; // avoid multiple triggers
-    isFetchingRef.current = true;
-    setLoading(true);
+  const LIMIT = 10;
 
+  const fetchImages = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/images?page=${pageNum}&limit=${limit}`,
-        { cache: "no-cache" }
-      );
-      const json: PaginatedResponse = await res.json();
-
-      if (pageNum === 1) {
-        setImages(json.data);
+      if (page === 1) {
+        setLoading(true);
       } else {
-        setImages((prev) => [...prev, ...json.data]);
+        setBottomLoading(true);
       }
 
-      setTotalPages(json.totalPages);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/images?page=${page}&limit=${LIMIT}`,
+        { cache: "no-cache" }
+      );
+      const json = await res.json();
+
+      // Error handling
+      if (!json?.data || !Array.isArray(json.data)) {
+        setHasMore(false);
+        if (page === 1) {
+          setData([]);
+        }
+        return;
+      }
+
+      // No more data check
+      if (json.data.length < LIMIT) {
+        setHasMore(false);
+      }
+
+      setData((prev) => [...prev, ...json.data]);
     } catch (err) {
-      console.error("Failed to load images:", err);
+      console.error(err);
+      if (page === 1) {
+        setData([]);
+      }
     } finally {
       setLoading(false);
-      isFetchingRef.current = false;
+      setBottomLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchImages(1);
-  }, []);
-
-  useEffect(() => {
-    if (!sentinelRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting && page < totalPages) {
-          setPage((prev) => prev + 1);
-        }
-      },
-      { threshold: 1 }
-    );
-
-    observer.observe(sentinelRef.current);
-    return () => observer.disconnect();
-  }, [totalPages, page]);
-
-  // Fetch when page changes
-  useEffect(() => {
-    if (page > 1) fetchImages(page);
   }, [page]);
 
-  if (loading && images.length === 0) {
+  const handleScroll = useCallback(() => {
+    if (bottomLoading || !hasMore) return;
+    if (
+      document.body.scrollHeight - 300 <
+      window.scrollY + window.innerHeight
+    ) {
+      setPage((prev) => prev + 1);
+    }
+  }, [bottomLoading, hasMore]);
+
+  useEffect(() => {
+    fetchImages();
+  }, [page, fetchImages]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  // First load
+  if (loading && page === 1) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
         <LoaderCircle className="animate-spin" size={32} />
@@ -99,10 +100,19 @@ export default function Home() {
     );
   }
 
+  // No images
+  if (!loading && data.length === 0) {
+    return (
+      <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
+        <h2 className="text-2xl">No images found.</h2>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div className="flex flex-col">
       <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-        {images.map((image) => (
+        {data.map((image) => (
           <div
             key={image.id}
             className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2"
@@ -125,15 +135,17 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Invisible loader trigger */}
-      <div ref={sentinelRef} className="h-1"></div>
-
-      {/* Optional loader at bottom */}
-      {loading && images.length > 0 && (
-        <div className="flex justify-center py-4 text-[#ffffff90]">
-          <LoaderCircle className="animate-spin" size={24} />
+      {bottomLoading && (
+        <div className="grid place-items-center h-[100px] text-[#ffffff90]">
+          <LoaderCircle className="animate-spin" size={32} />
         </div>
       )}
-    </>
+
+      {!hasMore && (
+        <div className="text-center text-[#ffffff60] py-4 text-sm">
+          No more images to load.
+        </div>
+      )}
+    </div>
   );
 }
