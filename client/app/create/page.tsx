@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import { useState } from "react";
 import { Copy, Loader, Upload } from "lucide-react";
 import { cn, getDominantColorOfImage, toCapitalize } from "@/lib/utils";
