@@ -68,7 +68,7 @@ const ProfileClient = ({
       <div className="flex flex-col gap-6 w-full max-w-5xl items-start exs:pl-0 sm:px-28 md:pl-40">
         <div className="h-[200px] w-[200px] border shadow-xs rounded-xl overflow-hidden grid place-items-center">
           {user?.avatar_url ? (
-            <Image
+            <img
               src={user.avatar_url}
               alt="profile image"
               height={200}

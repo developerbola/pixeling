@@ -14,12 +14,11 @@ const Navbar = memo(function Navbar({ user }: { user: User | null }) {
       <div className="flex w-full justify-between">
         <div>
           <Link href="/">
-            <Image
+            <img
               src={"/logo.svg"}
               alt="Pixeling logo"
               width={40}
               height={40}
-              priority
             />
           </Link>
         </div>

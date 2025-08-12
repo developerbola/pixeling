@@ -49,7 +49,7 @@ export default async function SingleImagePage({
                   backgroundColor: image.dominantColor,
                 }}
               >
-                <Image
+                <img
                   src={image.imageUrl}
                   alt={`${image.title} - ${image.description}`}
                   width={500}

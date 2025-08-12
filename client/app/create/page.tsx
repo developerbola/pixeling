@@ -231,14 +231,12 @@ const Create = () => {
                   }}
                 />
               ) : (
-                <Image
+                <img
                   src={"/default_placeholder.svg"}
                   alt="default"
                   width={200}
                   height={100}
                   className="w-[150px] h-[80px]"
-                  placeholder="blur"
-                  blurDataURL="/default_placeholder.svg"
                 />
               )}
             </div>

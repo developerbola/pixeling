@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ImageType } from "@/app/page";
-import Image from "next/image";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/lib/atom";
 
@@ -24,7 +23,7 @@ export default function ImageItem({ image }: ImageItemProps) {
           backgroundColor: loaded ? "transparent" : image.dominantColor,
         }}
       >
-        <Image
+        <img
           src={image.imageUrl}
           alt={(image.title, image.description)}
           width={parseInt(image.width)}
@@ -52,7 +51,7 @@ export default function ImageItem({ image }: ImageItemProps) {
       className="relative rounded-lg overflow-hidden"
       style={{ backgroundColor: loaded ? "transparent" : image.dominantColor }}
     >
-      <Image
+      <img
         src={image.imageUrl}
         alt={(image.title, image.description)}
         width={parseInt(image.width)}
