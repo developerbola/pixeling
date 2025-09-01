@@ -24,6 +24,10 @@ export default function RootLayout({
           name="description"
           content="A gallery app built with NextJS, Shadcn, HonoJS, Supabase"
         />
+        <meta
+          name="google-site-verification"
+          content="DoX2VXVpRUQNnPFJ7Kx16cGAAD-jTbXJf9fA5EVh5ko"
+        />
         <link rel="icon" href="/logo.svg" type="image/svg" />
       </head>
       <body>
