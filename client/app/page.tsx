@@ -6,6 +6,7 @@ import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { Masonry } from "react-plock";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface ImageType {
   id: string;
@@ -80,16 +81,30 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  // First load
   if (loading && page === 1) {
+    const heights = [
+      180, 260, 220, 300, 250, 109, 280, 230, 148, 190, 270, 197,
+    ];
+
     return (
-      <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">
-        <LoaderCircle className="animate-spin" size={32} />
+      <div className="relative h-fit w-full">
+        {/* Skeleton Masonry */}
+        <div className="exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
+          {heights.map((h, i) => (
+            <Skeleton
+              key={i}
+              className="exs:mb-3 sm:mb-5 break-inside-avoid w-full rounded-xl"
+              style={{ height: `${h}px` }}
+            />
+          ))}
+        </div>
+
+        {/* Gradient fade at bottom */}
+        <div className="pointer-events-none absolute bottom-0 left-0 h-full w-full bg-gradient-to-t from-[#09090b] via-[#09090b90] to-transparent" />
       </div>
     );
   }
 
-  // No images
   if (!loading && data.length === 0) {
     return (
       <div className="grid place-items-center h-[calc(90vh-150px)] text-[#ffffff90]">

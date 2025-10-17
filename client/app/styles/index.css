@@ -22,8 +22,8 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
+  --background: #09090b;
+  --foreground: #fafafa;
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.21 0.006 285.885);
