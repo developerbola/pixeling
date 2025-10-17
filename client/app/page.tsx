@@ -5,6 +5,7 @@ import Actions from "@/components/Actions";
 import ImageItem from "@/components/ImageItem";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
+import { Masonry } from "react-plock";
 
 export interface ImageType {
   id: string;
@@ -26,19 +27,16 @@ export type ImagesListType = { code: number; message: string } | ImageType[];
 export default function Home() {
   const [data, setData] = useState<ImageType[]>([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true); // first page load
-  const [bottomLoading, setBottomLoading] = useState(false); // scroll load
-  const [hasMore, setHasMore] = useState(true); // stop when no more images
+  const [loading, setLoading] = useState(true);
+  const [bottomLoading, setBottomLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const LIMIT = 10;
 
   const fetchImages = useCallback(async () => {
     try {
-      if (page === 1) {
-        setLoading(true);
-      } else {
-        setBottomLoading(true);
-      }
+      if (page === 1) setLoading(true);
+      else setBottomLoading(true);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/images?page=${page}&limit=${LIMIT}`,
@@ -46,26 +44,17 @@ export default function Home() {
       );
       const json = await res.json();
 
-      // Error handling
       if (!json?.data || !Array.isArray(json.data)) {
         setHasMore(false);
-        if (page === 1) {
-          setData([]);
-        }
+        if (page === 1) setData([]);
         return;
       }
 
-      // No more data check
-      if (json.data.length < LIMIT) {
-        setHasMore(false);
-      }
-
+      if (json.data.length < LIMIT) setHasMore(false);
       setData((prev) => [...prev, ...json.data]);
     } catch (err) {
       console.error(err);
-      if (page === 1) {
-        setData([]);
-      }
+      if (page === 1) setData([]);
     } finally {
       setLoading(false);
       setBottomLoading(false);
@@ -111,12 +100,16 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <div className="w-full exs:columns-2 md:columns-3 lg:columns-4 exs:gap-2 sm:gap-5">
-        {data.map((image) => (
-          <div
-            key={image.id}
-            className="exs:mb-3 sm:mb-5 break-inside-avoid flex flex-col gap-2"
-          >
+      <Masonry
+        items={data}
+        config={{
+          columns: [2, 3, 4],
+          gap: [8, 20, 20],
+          media: [480, 768, 1024],
+          useBalancedLayout: true,
+        }}
+        render={(image) => (
+          <div key={image.id} className="flex flex-col gap-2">
             <Link href={`/image/${image.id}`}>
               <ImageItem image={image} />
             </Link>
@@ -132,9 +125,10 @@ export default function Home() {
               />
             </div>
           </div>
-        ))}
-      </div>
+        )}
+      />
 
+      {/* Infinite scroll indicators */}
       {bottomLoading && (
         <div className="grid place-items-center h-[100px] text-[#ffffff90]">
           <LoaderCircle className="animate-spin" size={32} />
